@@ -1018,8 +1018,8 @@ see how to transform a data frame using a simple <code>StringIndexer</code>
 transformer.</p>
 <pre><code class="lang-scala"><span class="hljs-comment">// Create a StringIndexer that knows how to index the two strings</span>
 <span class="hljs-comment">// In our leap frame</span>
-<span class="hljs-keyword">val</span> stringIndexer = <span class="hljs-type">StringIndexer</span>(inputCol = <span class="hljs-string">&quot;a_string&quot;</span>,
-  outputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>,
+<span class="hljs-keyword">val</span> stringIndexer = <span class="hljs-type">StringIndexer</span>(
+  shape = <span class="hljs-type">NodeShape</span>.scalar(inputCol = <span class="hljs-string">&quot;a_string&quot;</span>, outputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>),
   model = <span class="hljs-type">StringIndexerModel</span>(<span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;Hello, MLeap!&quot;</span>, <span class="hljs-string">&quot;Another row&quot;</span>)))
 
 <span class="hljs-comment">// Transform our leap frame using the StringIndexer transformer</span>
@@ -1039,24 +1039,28 @@ algorithm. Let&apos;s create a dummy pipeline that takes our indices from the
 string indexer, runs them through a one hot encoder, then executes a
 linear regression.</p>
 <pre><code class="lang-scala"><span class="hljs-comment">// Create our one hot encoder</span>
-<span class="hljs-keyword">val</span> oneHotEncoder = <span class="hljs-type">OneHotEncoder</span>(inputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>,
-  outputCol = <span class="hljs-string">&quot;a_string_oh&quot;</span>,
+<span class="hljs-keyword">val</span> oneHotEncoder = <span class="hljs-type">OneHotEncoder</span>(shape = <span class="hljs-type">NodeShape</span>.vector(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, 
+                     inputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>,
+                     outputCol = <span class="hljs-string">&quot;a_string_oh&quot;</span>),
   model = <span class="hljs-type">OneHotEncoderModel</span>(<span class="hljs-number">2</span>, dropLast = <span class="hljs-literal">false</span>))
 
 <span class="hljs-comment">// Assemble some features together for use</span>
 <span class="hljs-comment">// By our linear regression</span>
-<span class="hljs-keyword">val</span> featureAssembler = <span class="hljs-type">VectorAssembler</span>(inputCols = <span class="hljs-type">Array</span>(oneHotEncoder.outputCol, <span class="hljs-string">&quot;a_double&quot;</span>),
-  outputCol = <span class="hljs-string">&quot;features&quot;</span>)
+<span class="hljs-keyword">val</span> featureAssembler = <span class="hljs-type">VectorAssembler</span>(
+     shape = <span class="hljs-type">NodeShape</span>().withInput(<span class="hljs-string">&quot;input0&quot;</span>, <span class="hljs-string">&quot;a_string_oh&quot;</span>).
+     withInput(<span class="hljs-string">&quot;input1&quot;</span>, <span class="hljs-string">&quot;a_double&quot;</span>).withStandardOutput(<span class="hljs-string">&quot;features&quot;</span>),
+     model = <span class="hljs-type">VectorAssemblerModel</span>(<span class="hljs-type">Seq</span>(<span class="hljs-type">TensorShape</span>(<span class="hljs-number">2</span>), <span class="hljs-type">ScalarShape</span>())))
 
 <span class="hljs-comment">// Create our linear regression</span>
 <span class="hljs-comment">// It has two coefficients, as the one hot encoder</span>
 <span class="hljs-comment">// Outputs vectors of size 2</span>
-<span class="hljs-keyword">val</span> linearRegression = <span class="hljs-type">LinearRegression</span>(featuresCol = featureAssembler.outputCol,
-  predictionCol = <span class="hljs-string">&quot;prediction&quot;</span>,
+<span class="hljs-keyword">val</span> linearRegression = <span class="hljs-type">LinearRegression</span>(shape = <span class="hljs-type">NodeShape</span>.regression(<span class="hljs-number">3</span>),
   model = <span class="hljs-type">LinearRegressionModel</span>(<span class="hljs-type">Vectors</span>.dense(<span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">6.0</span>), <span class="hljs-number">23.5</span>))
 
 <span class="hljs-comment">// Create a pipeline from all of our transformers</span>
-<span class="hljs-keyword">val</span> pipeline = <span class="hljs-type">Pipeline</span>(transformers = <span class="hljs-type">Seq</span>(stringIndexer, oneHotEncoder, featureAssembler, linearRegression))
+<span class="hljs-keyword">val</span> pipeline = <span class="hljs-type">Pipeline</span>(
+      shape = <span class="hljs-type">NodeShape</span>(),
+      model = <span class="hljs-type">PipelineModel</span>(<span class="hljs-type">Seq</span>(stringIndexer, oneHotEncoder, featureAssembler, linearRegression)))
 
 <span class="hljs-comment">// Transform our leap frame using the pipeline</span>
 <span class="hljs-keyword">val</span> predictions = (<span class="hljs-keyword">for</span>(lf &lt;- pipeline.transform(leapFrame);
@@ -1115,7 +1119,7 @@ Tensorflow.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Transforming a Leap Frame","level":"1.8.4","depth":2,"next":{"title":"Serialization","level":"1.8.5","depth":2,"path":"mleap-runtime/bundle.md","ref":"mleap-runtime/bundle.md","articles":[]},"previous":{"title":"Custom","level":"1.8.3.4","depth":3,"anchor":"#custom","path":"mleap-runtime/storing.md","ref":"mleap-runtime/storing.md#custom","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-runtime/transform-leap-frame.md","mtime":"2017-01-23T01:55:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Transforming a Leap Frame","level":"1.8.4","depth":2,"next":{"title":"Serialization","level":"1.8.5","depth":2,"path":"mleap-runtime/bundle.md","ref":"mleap-runtime/bundle.md","articles":[]},"previous":{"title":"Custom","level":"1.8.3.4","depth":3,"anchor":"#custom","path":"mleap-runtime/storing.md","ref":"mleap-runtime/storing.md#custom","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-runtime/transform-leap-frame.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

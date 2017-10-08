@@ -1027,8 +1027,7 @@ Scikit-learn, or MLeap-based application.</p>
 <li>Serialize to a directory or a zip file</li>
 <li>Entirely JSON and Protobuf-based format</li>
 <li>Serialize as pure JSON, pure Protobuf, or mixed mode</li>
-<li>Highly extensible, including support for custom data types and easy
-integration with new transformers</li>
+<li>Highly extensible, including easy integration with new transformers</li>
 </ol>
 <h2 id="common-format-for-spark-scikit-learn-tensorflow">Common Format For Spark, Scikit-Learn, TensorFlow</h2>
 <p>MLeap provides a serialization format for common transformers that are found in Spark, Scikit and TF. For example, consider the Standard Scaler trasnformer (<code>tf.random_normal_initializer</code> in TensorFlow). It performs the same opperation on all three platforms so in theory can be serialized, deserialized and used interchangeably between them.</p>
@@ -1064,8 +1063,9 @@ looks like:</p>
 <pre><code>{
   &quot;uid&quot;: &quot;7b4eaab4-7d84-4f52-9351-5de98f9d5d04&quot;,
   &quot;name&quot;: &quot;pipeline_43ec54dff5b2&quot;,
-  &quot;format&quot;: &quot;mixed&quot;,
-  &quot;version&quot;: &quot;0.7.0&quot;
+  &quot;timestamp&quot;: &quot;2017-09-03T17:41:25.206&quot;,
+  &quot;format&quot;: &quot;json&quot;,
+  &quot;version&quot;: &quot;0.8.0&quot;
 }
 </code></pre><ol>
 <li><code>uid</code> is a Java UUID that is automatically generated as a unique ID
@@ -1074,19 +1074,16 @@ for the bundle</li>
 <li><code>format</code> is the serialization format used to serialize this bundle</li>
 <li><code>version</code> is a reference to the version of MLeap used to serialize
 the bundle</li>
+<li><code>timestamp</code> defines when the bundle was serialized</li>
 </ol>
 <h3 id="modeljson">model.json</h3>
 <p>For the pipeline:</p>
 <pre><code>{
   &quot;op&quot;: &quot;pipeline&quot;,
   &quot;attributes&quot;: {
-    &quot;nodes&quot;: {
-      &quot;type&quot;: {
-        &quot;type&quot;: &quot;list&quot;,
-        &quot;base&quot;: &quot;string&quot;
-      },
-      &quot;value&quot;: [&quot;strIdx_ac9c3f9c6d3a&quot;, &quot;oneHot_4b815730d602&quot;, &quot;vecAssembler_9eb71026cd11&quot;, &quot;linReg_7a946be681a8&quot;]
-    }
+  &quot;nodes&quot;: {
+    &quot;type&quot;: &quot;list&quot;,
+    &quot;string&quot;: [&quot;strIdx_ac9c3f9c6d3a&quot;, &quot;oneHot_4b815730d602&quot;, &quot;vecAssembler_9eb71026cd11&quot;, &quot;linReg_7a946be681a8&quot;]
   }
 }
 </code></pre><p>For the linear regression:</p>
@@ -1094,22 +1091,18 @@ the bundle</li>
   &quot;op&quot;: &quot;linear_regression&quot;,
   &quot;attributes&quot;: {
     &quot;coefficients&quot;: {
-      &quot;type&quot;: {
-        &quot;type&quot;: &quot;tensor&quot;,
-        &quot;tensor&quot;: {
-          &quot;base&quot;: &quot;double&quot;
-        }
+      &quot;double&quot;: [7274.194347379634, 4326.995162668048, 9341.604695180558, 1691.794448740186, 2162.2199731255423, 2342.150297286721, 0.18287261938061752],
+      &quot;shape&quot;: {
+        &quot;dimensions&quot;: [{
+          &quot;size&quot;: 7,
+          &quot;name&quot;: &quot;&quot;
+        }]
       },
-      &quot;value&quot;: {
-        &quot;values&quot;: [7274.194347379634, 4326.995162668048, 9341.604695180558, 1691.794448740186, 2162.2199731255423, 2342.150297286721, 0.18287261938061752],
-        &quot;dimensions&quot;: [7]
-      }
+      &quot;type&quot;: &quot;tensor&quot;
     },
     &quot;intercept&quot;: {
-      &quot;type&quot;: &quot;double&quot;,
-      &quot;value&quot;: 8085.6026142683095
+      &quot;double&quot;: 8085.6026142683095
     }
-  }
 }
 </code></pre><ol>
 <li><code>op</code> specifies the operation to be executed, there is one op name for
@@ -1191,7 +1184,7 @@ on the link.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"MLeap Bundles","level":"1.2.4","depth":2,"next":{"title":"Structure","level":"1.2.4.1","depth":3,"anchor":"#bundle-structure","path":"core-concepts/mleap-bundles.md","ref":"core-concepts/mleap-bundles.md#bundle-structure","articles":[]},"previous":{"title":"Pipelines","level":"1.2.3","depth":2,"path":"core-concepts/pipelines.md","ref":"core-concepts/pipelines.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"core-concepts/mleap-bundles.md","mtime":"2017-05-25T14:57:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MLeap Bundles","level":"1.2.4","depth":2,"next":{"title":"Structure","level":"1.2.4.1","depth":3,"anchor":"#bundle-structure","path":"core-concepts/mleap-bundles.md","ref":"core-concepts/mleap-bundles.md#bundle-structure","articles":[]},"previous":{"title":"Pipelines","level":"1.2.3","depth":2,"path":"core-concepts/pipelines.md","ref":"core-concepts/pipelines.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"core-concepts/mleap-bundles.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -1060,11 +1060,6 @@ support classes.</p>
   pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Protobuf</span>).save(bundle)
 }
 </code></pre>
-<h3 id="mixed-format">Mixed Format</h3>
-<pre><code class="lang-scala"><span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mleap-examples/simple-mixed.zip&quot;</span>))) {
-  pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Mixed</span>).save(bundle)
-}
-</code></pre>
 <h2 id="serialize-to-directory">Serialize to Directory</h2>
 <p>In order to serialize to a directory, make sure the URI begins with
 <code>file</code>.</p>
@@ -1079,11 +1074,6 @@ support classes.</p>
   pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Protobuf</span>).save(bundle)
 }
 </code></pre>
-<h3 id="mixed-format">Mixed Format</h3>
-<pre><code class="lang-scala"><span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;file:/tmp/mleap-examples/simple-mixed-dir&quot;</span>))) {
-  pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Mixed</span>).save(bundle)
-}
-</code></pre>
 <h2 id="deserializing">Deserializing</h2>
 <p>Deserializing is just as easy as serializing. You don&apos;t need to know the
 format the MLeap Bundle was serialized as beforehand, you just need to
@@ -1091,14 +1081,14 @@ know where the bundle is.</p>
 <h3 id="from-zip-bundle">From Zip Bundle</h3>
 <pre><code class="lang-scala"><span class="hljs-comment">// Deserialize a zip bundle</span>
 <span class="hljs-comment">// Use Scala ARM to make sure resources are managed properly</span>
-<span class="hljs-keyword">val</span> zipBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mleap-examples/simple-mixed.zip&quot;</span>))) <span class="hljs-keyword">yield</span> {
+<span class="hljs-keyword">val</span> zipBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mleap-examples/simple-json.zip&quot;</span>))) <span class="hljs-keyword">yield</span> {
   bundle.loadSparkBundle().get
 }).opt.get
 </code></pre>
 <h3 id="directory-bundle">Directory Bundle</h3>
 <pre><code class="lang-scala"><span class="hljs-comment">// Deserialize a directory bundle</span>
 <span class="hljs-comment">// Use Scala ARM to make sure resources are managed properly</span>
-<span class="hljs-keyword">val</span> dirBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;file:/tmp/mleap-examples/simple-mixed-dir&quot;</span>))) <span class="hljs-keyword">yield</span> {
+<span class="hljs-keyword">val</span> dirBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;file:/tmp/mleap-examples/simple-json-dir&quot;</span>))) <span class="hljs-keyword">yield</span> {
   bundle.loadSparkBundle().get
 }).opt.get
 </code></pre>
@@ -1145,7 +1135,7 @@ know where the bundle is.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"MLeap-Spark","level":"1.3","depth":1,"next":{"title":"MLeap-PySpark","level":"1.4","depth":1,"path":"py-spark/index.md","ref":"py-spark/index.md","articles":[]},"previous":{"title":"MLeap Runtime","level":"1.2.5","depth":2,"path":"core-concepts/mleap-runtime.md","ref":"core-concepts/mleap-runtime.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"spark/index.md","mtime":"2017-05-25T14:57:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MLeap-Spark","level":"1.3","depth":1,"next":{"title":"MLeap-PySpark","level":"1.4","depth":1,"path":"py-spark/index.md","ref":"py-spark/index.md","articles":[]},"previous":{"title":"MLeap Runtime","level":"1.2.5","depth":2,"path":"core-concepts/mleap-runtime.md","ref":"core-concepts/mleap-runtime.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"spark/index.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

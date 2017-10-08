@@ -1029,18 +1029,22 @@ that can easily be shipped around.</p>
 
 <span class="hljs-comment">// Create a sample pipeline that we will serialize</span>
 <span class="hljs-comment">// And then deserialize using various formats</span>
-<span class="hljs-keyword">val</span> stringIndexer = <span class="hljs-type">StringIndexer</span>(inputCol = <span class="hljs-string">&quot;a_string&quot;</span>,
-  outputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>,
+<span class="hljs-keyword">val</span> stringIndexer = <span class="hljs-type">StringIndexer</span>(
+  shape = <span class="hljs-type">NodeShape</span>.scalar(inputCol = <span class="hljs-string">&quot;a_string&quot;</span>, outputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>),
   model = <span class="hljs-type">StringIndexerModel</span>(<span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;Hello, MLeap!&quot;</span>, <span class="hljs-string">&quot;Another row&quot;</span>)))
-<span class="hljs-keyword">val</span> oneHotEncoder = <span class="hljs-type">OneHotEncoder</span>(inputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>,
-  outputCol = <span class="hljs-string">&quot;a_string_oh&quot;</span>,
+<span class="hljs-keyword">val</span> oneHotEncoder = <span class="hljs-type">OneHotEncoder</span>(
+  shape = <span class="hljs-type">NodeShape</span>.vector(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, inputCol = <span class="hljs-string">&quot;a_string_index&quot;</span>, outputCol = <span class="hljs-string">&quot;a_string_oh&quot;</span>),
   model = <span class="hljs-type">OneHotEncoderModel</span>(<span class="hljs-number">2</span>, dropLast = <span class="hljs-literal">false</span>))
-<span class="hljs-keyword">val</span> featureAssembler = <span class="hljs-type">VectorAssembler</span>(inputCols = <span class="hljs-type">Array</span>(oneHotEncoder.outputCol, <span class="hljs-string">&quot;a_double&quot;</span>),
-  outputCol = <span class="hljs-string">&quot;features&quot;</span>)
-<span class="hljs-keyword">val</span> linearRegression = <span class="hljs-type">LinearRegression</span>(featuresCol = featureAssembler.outputCol,
-  predictionCol = <span class="hljs-string">&quot;prediction&quot;</span>,
+<span class="hljs-keyword">val</span> featureAssembler = <span class="hljs-type">VectorAssembler</span>(
+  shape = <span class="hljs-type">NodeShape</span>().withInput(<span class="hljs-string">&quot;input0&quot;</span>, <span class="hljs-string">&quot;a_string_oh&quot;</span>).
+          withInput(<span class="hljs-string">&quot;input1&quot;</span>, <span class="hljs-string">&quot;a_double&quot;</span>).withStandardOutput(<span class="hljs-string">&quot;features&quot;</span>),
+  model = <span class="hljs-type">VectorAssemblerModel</span>(<span class="hljs-type">Seq</span>(<span class="hljs-type">TensorShape</span>(<span class="hljs-number">2</span>), <span class="hljs-type">ScalarShape</span>())))
+<span class="hljs-keyword">val</span> linearRegression = <span class="hljs-type">LinearRegression</span>(
+  shape = <span class="hljs-type">NodeShape</span>.regression(<span class="hljs-number">3</span>),
   model = <span class="hljs-type">LinearRegressionModel</span>(<span class="hljs-type">Vectors</span>.dense(<span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">6.0</span>), <span class="hljs-number">23.5</span>))
-<span class="hljs-keyword">val</span> pipeline = <span class="hljs-type">Pipeline</span>(transformers = <span class="hljs-type">Seq</span>(stringIndexer, oneHotEncoder, featureAssembler, linearRegression))
+<span class="hljs-keyword">val</span> pipeline = <span class="hljs-type">Pipeline</span>(
+  shape = <span class="hljs-type">NodeShape</span>(),
+  model = <span class="hljs-type">PipelineModel</span>(<span class="hljs-type">Seq</span>(stringIndexer, oneHotEncoder, featureAssembler, linearRegression)))
 </code></pre>
 <h2 id="serialize-to-zip-file">Serialize to Zip File</h2>
 <p>In order to serialize to a zip file, make sure the URI begins with
@@ -1057,11 +1061,6 @@ that can easily be shipped around.</p>
   pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Protobuf</span>).save(bundle)
 }
 </code></pre>
-<h3 id="mixed-format">Mixed Format</h3>
-<pre><code class="lang-scala"><span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mleap-examples/simple-mixed.zip&quot;</span>))) {
-  pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Mixed</span>).save(bundle)
-}
-</code></pre>
 <h2 id="serialize-to-directory">Serialize to Directory</h2>
 <p>In order to serialize to a directory, make sure the URI begins with
 <code>file</code>.</p>
@@ -1076,11 +1075,6 @@ that can easily be shipped around.</p>
   pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Protobuf</span>).save(bundle)
 }
 </code></pre>
-<h3 id="mixed-format">Mixed Format</h3>
-<pre><code class="lang-scala"><span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;file:/tmp/mleap-examples/simple-mixed-dir&quot;</span>))) {
-  pipeline.writeBundle.format(<span class="hljs-type">SerializationFormat</span>.<span class="hljs-type">Mixed</span>).save(bundle)
-}
-</code></pre>
 <h2 id="deserializing">Deserializing</h2>
 <p>Deserializing is just as easy as serializing. You don&apos;t need to know the
 format the MLeap Bundle was serialized as beforehand, you just need to
@@ -1088,14 +1082,14 @@ know where the bundle is.</p>
 <h3 id="zip-bundle">Zip Bundle</h3>
 <pre><code class="lang-scala"><span class="hljs-comment">// Deserialize a zip bundle</span>
 <span class="hljs-comment">// Use Scala ARM to make sure resources are managed properly</span>
-<span class="hljs-keyword">val</span> zipBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mleap-examples/simple-mixed.zip&quot;</span>))) <span class="hljs-keyword">yield</span> {
+<span class="hljs-keyword">val</span> zipBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mleap-examples/simple-json.zip&quot;</span>))) <span class="hljs-keyword">yield</span> {
   bundle.loadMleapBundle().get
 }).opt.get
 </code></pre>
 <h3 id="directory-bundle">Directory Bundle</h3>
 <pre><code class="lang-scala"><span class="hljs-comment">// Deserialize a directory bundle</span>
 <span class="hljs-comment">// Use Scala ARM to make sure resources are managed properly</span>
-<span class="hljs-keyword">val</span> dirBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;file:/tmp/mleap-examples/simple-mixed-dir&quot;</span>))) <span class="hljs-keyword">yield</span> {
+<span class="hljs-keyword">val</span> dirBundle = (<span class="hljs-keyword">for</span>(bundle &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;file:/tmp/mleap-examples/simple-json-dir&quot;</span>))) <span class="hljs-keyword">yield</span> {
   bundle.loadMleapBundle().get
 }).opt.get
 </code></pre>
@@ -1142,7 +1136,7 @@ know where the bundle is.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Serialization","level":"1.8.5","depth":2,"next":{"title":"Boosting Transform Speed","level":"1.8.6","depth":2,"path":"mleap-runtime/row-transformer.md","ref":"mleap-runtime/row-transformer.md","articles":[]},"previous":{"title":"Transforming a Leap Frame","level":"1.8.4","depth":2,"path":"mleap-runtime/transform-leap-frame.md","ref":"mleap-runtime/transform-leap-frame.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-runtime/bundle.md","mtime":"2017-05-25T14:57:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Serialization","level":"1.8.5","depth":2,"next":{"title":"Boosting Transform Speed","level":"1.8.6","depth":2,"path":"mleap-runtime/row-transformer.md","ref":"mleap-runtime/row-transformer.md","articles":[]},"previous":{"title":"Transforming a Leap Frame","level":"1.8.4","depth":2,"path":"mleap-runtime/transform-leap-frame.md","ref":"mleap-runtime/transform-leap-frame.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-runtime/bundle.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

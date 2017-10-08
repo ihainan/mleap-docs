@@ -1058,9 +1058,9 @@ input_features = [<span class="hljs-string">&apos;a&apos;</span>, <span class="h
 output_vector_name = <span class="hljs-string">&apos;unscaled_continuous_features&apos;</span> <span class="hljs-comment"># Used only for serialization purposes</span>
 output_features = [<span class="hljs-string">&quot;{}_scaled&quot;</span>.format(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> input_features]
 
-feature_extractor_tf = FeatureExtractor(input_features,
-                                        output_vector_name,
-                                        output_features)
+feature_extractor_tf = FeatureExtractor(input_scalars=input_features,
+                                        output_vector=output_vector_name,
+                                        output_vector_items=output_features)
 
 
 <span class="hljs-comment"># Define the Standard Scaler as we normally would</span>
@@ -1069,7 +1069,7 @@ standard_scaler_tf = StandardScaler(with_mean=<span class="hljs-keyword">True</s
 
 <span class="hljs-comment"># Execute ML-Init to add the require attributes to the transformer object</span>
 <span class="hljs-comment"># Op and Name will be initialized automatically</span>
-standard_scaler_tf.mlinit(input_features=output_vector_name,
+standard_scaler_tf.mlinit(prior_tf=feature_extractor_tf,
                           output_features=<span class="hljs-string">&apos;scaled_continuous_features&apos;</span>)
 </code></pre>
 <p>Now that we have our transformers defined, we assemble them into a pipeline and execute it on our data frame</p>
@@ -1102,9 +1102,9 @@ input_features_min_max = [<span class="hljs-string">&apos;b&apos;</span>, <span 
 output_vector_name_min_max = <span class="hljs-string">&apos;unscaled_continuous_features_min_max&apos;</span> <span class="hljs-comment"># Used only for serialization purposes</span>
 output_features_min_max = [<span class="hljs-string">&quot;{}_min_maxscaled&quot;</span>.format(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> input_features_min_max]
 
-feature_extractor_min_max_tf = FeatureExtractor(input_features_min_max,
-                                                output_vector_name_min_max,
-                                                output_features_min_max)
+feature_extractor_min_max_tf = FeatureExtractor(input_scalars=input_features_min_max,
+                                                output_vector=output_vector_name_min_max,
+                                                output_vector_items=output_features_min_max)
 
 
 <span class="hljs-comment"># Define the MinMaxScaler as we normally would</span>
@@ -1112,7 +1112,7 @@ min_maxscaler_tf = MinMaxScaler()
 
 <span class="hljs-comment"># Execute ML-Init to add the require attributes to the transformer object</span>
 <span class="hljs-comment"># Op and Name will be initialized automatically</span>
-min_maxscaler_tf.mlinit(input_features=output_vector_name_min_max,
+min_maxscaler_tf.mlinit(prior_tf=feature_extractor_min_max_tf,
                           output_features=<span class="hljs-string">&apos;min_max_scaled_continuous_features&apos;</span>)
 
 <span class="hljs-comment"># Assemble our MinMaxScaler Pipeline</span>
@@ -1175,8 +1175,6 @@ array([[ <span class="hljs-number">0.2070446</span> ,  <span class="hljs-number"
 </code></pre>
 <h3 id="protobuf-format">Protobuf Format</h3>
 <p>Coming Soon</p>
-<h3 id="mixed-format">Mixed Format</h3>
-<p>Coming Soon</p>
 <h3 id="deserializing">Deserializing</h3>
 <p>Coming Soon</p>
 <h2 id="demos">Demos</h2>
@@ -1224,7 +1222,7 @@ array([[ <span class="hljs-number">0.2070446</span> ,  <span class="hljs-number"
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Scikit-learn","level":"1.5","depth":1,"next":{"title":"Transformers Guide","level":"1.5.1","depth":2,"path":"scikit-learn/transformers.md","ref":"scikit-learn/transformers.md","articles":[]},"previous":{"title":"MLeap-PySpark","level":"1.4","depth":1,"path":"py-spark/index.md","ref":"py-spark/index.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"scikit-learn/index.md","mtime":"2017-05-25T14:57:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Scikit-learn","level":"1.5","depth":1,"next":{"title":"Transformers Guide","level":"1.5.1","depth":2,"path":"scikit-learn/transformers.md","ref":"scikit-learn/transformers.md","articles":[]},"previous":{"title":"MLeap-PySpark","level":"1.4","depth":1,"path":"py-spark/index.md","ref":"py-spark/index.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"scikit-learn/index.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

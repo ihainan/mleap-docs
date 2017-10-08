@@ -1022,35 +1022,45 @@ it performs string indexing on a categorical feature then runs the
 result through a binarizer to force the result to a 1 or 0. This
 pipeline has no real-world purpose, but illustrates how easy it is to
 create MLeap Bundles from Spark ML pipelines.</p>
-<pre><code class="lang-scala"><span class="hljs-keyword">import</span> org.apache.spark.ml.feature.{<span class="hljs-type">StringIndexerModel</span>, <span class="hljs-type">Binarizer</span>}
-<span class="hljs-keyword">import</span> ml.combust.bundle.<span class="hljs-type">BundleFile</span>
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> ml.combust.bundle.<span class="hljs-type">BundleFile</span>
 <span class="hljs-keyword">import</span> ml.combust.mleap.spark.<span class="hljs-type">SparkSupport</span>._
+<span class="hljs-keyword">import</span> org.apache.spark.ml.<span class="hljs-type">Pipeline</span>
+<span class="hljs-keyword">import</span> org.apache.spark.ml.bundle.<span class="hljs-type">SparkBundleContext</span>
+<span class="hljs-keyword">import</span> org.apache.spark.ml.feature.{<span class="hljs-type">Binarizer</span>, <span class="hljs-type">StringIndexer</span>}
+<span class="hljs-keyword">import</span> org.apache.spark.sql._
+<span class="hljs-keyword">import</span> org.apache.spark.sql.functions._
 <span class="hljs-keyword">import</span> resource._
 
-<span class="hljs-comment">// User out-of-the-box Spark transformers like you normally would</span>
-<span class="hljs-keyword">val</span> stringIndexer = <span class="hljs-keyword">new</span> <span class="hljs-type">StringIndexerModel</span>(uid = <span class="hljs-string">&quot;si&quot;</span>, labels = <span class="hljs-type">Array</span>(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-string">&quot;MLeap&quot;</span>)).
-  setInputCol(<span class="hljs-string">&quot;test_string&quot;</span>).
-  setOutputCol(<span class="hljs-string">&quot;test_index&quot;</span>)
+  <span class="hljs-keyword">val</span> datasetName = <span class="hljs-string">&quot;./mleap-docs/assets/spark-demo.csv&quot;</span>
 
-<span class="hljs-keyword">val</span> binarizer = <span class="hljs-keyword">new</span> <span class="hljs-type">Binarizer</span>(uid = <span class="hljs-string">&quot;bin&quot;</span>).
-  setThreshold(<span class="hljs-number">0.5</span>).
-  setInputCol(<span class="hljs-string">&quot;test_double&quot;</span>).
-  setOutputCol(<span class="hljs-string">&quot;test_bin&quot;</span>)
+  <span class="hljs-keyword">val</span> dataframe: <span class="hljs-type">DataFrame</span> = spark.sqlContext.read.format(<span class="hljs-string">&quot;csv&quot;</span>)
+    .option(<span class="hljs-string">&quot;header&quot;</span>, <span class="hljs-literal">true</span>)
+    .load(datasetName)
+    .withColumn(<span class="hljs-string">&quot;test_double&quot;</span>, col(<span class="hljs-string">&quot;test_double&quot;</span>).cast(<span class="hljs-string">&quot;double&quot;</span>))
 
-<span class="hljs-comment">// Use the MLeap utility method to directly create an org.apache.spark.ml.PipelineModel</span>
+  <span class="hljs-comment">// User out-of-the-box Spark transformers like you normally would</span>
+  <span class="hljs-keyword">val</span> stringIndexer = <span class="hljs-keyword">new</span> <span class="hljs-type">StringIndexer</span>().
+    setInputCol(<span class="hljs-string">&quot;test_string&quot;</span>).
+    setOutputCol(<span class="hljs-string">&quot;test_index&quot;</span>)
 
-<span class="hljs-keyword">import</span> org.apache.spark.ml.mleap.<span class="hljs-type">SparkUtil</span>
+  <span class="hljs-keyword">val</span> binarizer = <span class="hljs-keyword">new</span> <span class="hljs-type">Binarizer</span>().
+    setThreshold(<span class="hljs-number">0.5</span>).
+    setInputCol(<span class="hljs-string">&quot;test_double&quot;</span>).
+    setOutputCol(<span class="hljs-string">&quot;test_bin&quot;</span>)
 
-<span class="hljs-comment">// Without needing to fit an org.apache.spark.ml.Pipeline</span>
-<span class="hljs-keyword">val</span> pipeline = <span class="hljs-type">SparkUtil</span>.createPipelineModel(uid = <span class="hljs-string">&quot;pipeline&quot;</span>, <span class="hljs-type">Array</span>(stringIndexer, binarizer))
+  <span class="hljs-keyword">val</span> pipelineEstimator = <span class="hljs-keyword">new</span> <span class="hljs-type">Pipeline</span>()
+    .setStages(<span class="hljs-type">Array</span>(stringIndexer, binarizer))
 
-<span class="hljs-keyword">for</span>(modelFile &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/simple-spark-pipeline.zip&quot;</span>))) {
-  pipeline.writeBundle.
-    <span class="hljs-comment">// save our pipeline to a zip file</span>
-    <span class="hljs-comment">// we can save a file to any supported java.nio.FileSystem</span>
-    save(modelFile)
-}
+  <span class="hljs-keyword">val</span> pipeline = pipelineEstimator.fit(dataframe)
+
+  <span class="hljs-comment">// then serialize pipeline</span>
+  <span class="hljs-keyword">val</span> sbc = <span class="hljs-type">SparkBundleContext</span>().withDataset(pipeline.transform(dataframe))
+  <span class="hljs-keyword">for</span>(bf &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/simple-spark-pipeline.zip&quot;</span>))) {
+    pipeline.writeBundle.save(bf)(sbc).get
+  }
 </code></pre>
+<p>Dataset used for training can be found <a href="../assets/spark-demo.csv">here</a>.</p>
+<p>NOTE: right click and &quot;Save As...&quot;, Gitbook prevents directly clicking on the link.</p>
 <h2 id="import-and-mleap-bundle">Import and MLeap Bundle</h2>
 <p>In this section we will load the MLeap Bundle from the first section
 into the MLeap Runtime. We will then use the MLeap Runtime transformer to
@@ -1058,19 +1068,18 @@ transform a leap frame.</p>
 <pre><code class="lang-scala"><span class="hljs-keyword">import</span> ml.combust.bundle.<span class="hljs-type">BundleFile</span>
 <span class="hljs-keyword">import</span> ml.combust.mleap.runtime.<span class="hljs-type">MleapSupport</span>._
 <span class="hljs-keyword">import</span> resource._
-
 <span class="hljs-comment">// load the Spark pipeline we saved in the previous section</span>
 <span class="hljs-keyword">val</span> bundle = (<span class="hljs-keyword">for</span>(bundleFile &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/simple-spark-pipeline.zip&quot;</span>))) <span class="hljs-keyword">yield</span> {
-  bundleFile.loadBundle().get
+  bundleFile.loadMleapBundle().get
 }).opt.get
 
 <span class="hljs-comment">// create a simple LeapFrame to transform</span>
 <span class="hljs-keyword">import</span> ml.combust.mleap.runtime.{<span class="hljs-type">Row</span>, <span class="hljs-type">LeapFrame</span>, <span class="hljs-type">LocalDataset</span>}
-<span class="hljs-keyword">import</span> ml.combust.mleap.runtime.types._
+<span class="hljs-keyword">import</span> ml.combust.mleap.core.types._
 
 <span class="hljs-comment">// MLeap makes extensive use of monadic types like Try</span>
-<span class="hljs-keyword">val</span> schema = <span class="hljs-type">StructType</span>(<span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;test_string&quot;</span>, <span class="hljs-type">StringType</span>),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;test_double&quot;</span>, <span class="hljs-type">DoubleType</span>)).get
+<span class="hljs-keyword">val</span> schema = <span class="hljs-type">StructType</span>(<span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;test_string&quot;</span>, <span class="hljs-type">ScalarType</span>.<span class="hljs-type">String</span>),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;test_double&quot;</span>, <span class="hljs-type">ScalarType</span>.<span class="hljs-type">Double</span>)).get
 <span class="hljs-keyword">val</span> data = <span class="hljs-type">LocalDataset</span>(<span class="hljs-type">Row</span>(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">0.6</span>),
   <span class="hljs-type">Row</span>(<span class="hljs-string">&quot;MLeap&quot;</span>, <span class="hljs-number">0.2</span>))
 <span class="hljs-keyword">val</span> frame = <span class="hljs-type">LeapFrame</span>(schema, data)
@@ -1136,7 +1145,7 @@ our <a href="minst.md">MNIST Demo</a>.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Demos","level":"1.9","depth":1,"next":{"title":"MNIST","level":"1.9.1","depth":2,"path":"demos/mnist.md","ref":"demos/mnist.md","articles":[]},"previous":{"title":"Spark Registry","level":"1.8.7.7","depth":3,"anchor":"#spark-registry","path":"mleap-runtime/custom-transformer.md","ref":"mleap-runtime/custom-transformer.md#spark-registry","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"demos/index.md","mtime":"2017-05-25T14:57:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Demos","level":"1.9","depth":1,"next":{"title":"MNIST","level":"1.9.1","depth":2,"path":"demos/mnist.md","ref":"demos/mnist.md","articles":[]},"previous":{"title":"Spark Registry","level":"1.8.7.7","depth":3,"anchor":"#spark-registry","path":"mleap-runtime/custom-transformer.md","ref":"mleap-runtime/custom-transformer.md#spark-registry","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"demos/index.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

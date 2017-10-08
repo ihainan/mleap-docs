@@ -1024,13 +1024,13 @@
 df = pd.DataFrame(np.array([ [<span class="hljs-string">&apos;Alice&apos;</span>, <span class="hljs-number">32</span>], [<span class="hljs-string">&apos;Jack&apos;</span>, <span class="hljs-number">18</span>], [<span class="hljs-string">&apos;Bob&apos;</span>,<span class="hljs-number">34</span>]]), columns=[<span class="hljs-string">&apos;name&apos;</span>, <span class="hljs-string">&apos;age&apos;</span>])
 
 <span class="hljs-comment"># Define our feature extractor</span>
-feature_extractor_tf = FeatureExtractor(input_features=[<span class="hljs-string">&apos;name&apos;</span>], 
+feature_extractor_tf = FeatureExtractor(input_scalars=[<span class="hljs-string">&apos;name&apos;</span>], 
                                         output_vector=<span class="hljs-string">&apos;name_continuous_feature&apos;</span>, 
                                         output_vector_items=[<span class="hljs-string">&apos;name_label_encoded&apos;</span>])
 
 <span class="hljs-comment"># Label Encoder for x1 Label </span>
 label_encoder_tf = LabelEncoder()
-label_encoder_tf.mlinit(input_features = feature_extractor_tf.output_vector, output_features=<span class="hljs-string">&apos;name_label_le&apos;</span>)
+label_encoder_tf.mlinit(input_features = feature_extractor_tf.output_vector_items, output_features=<span class="hljs-string">&apos;name_label_le&apos;</span>)
 
 <span class="hljs-comment"># Reshape the output of the LabelEncoder to N-by-1 array</span>
 reshape_le_tf = ReshapeArrayToN1()
@@ -1055,10 +1055,8 @@ array([[<span class="hljs-number">0</span>],
 <p>We&apos;ll continue the example above to demonstrate how the out-of-the-box Scikit OneHotEncoder works.</p>
 <pre><code class="lang-python"><span class="hljs-comment">## Vector Assembler for x1 One Hot Encoder</span>
 one_hot_encoder_tf = OneHotEncoder(sparse=<span class="hljs-keyword">False</span>) <span class="hljs-comment"># Make sure to set sparse=False</span>
-one_hot_encoder_tf.mlinit(input_features = label_encoder_tf.output_features, output_features = <span class="hljs-string">&apos;{}_one_hot_encoded&apos;</span>.format(label_encoder_tf.output_features))
+one_hot_encoder_tf.mlinit(prior_tf=label_encoder_tf, output_features = <span class="hljs-string">&apos;{}_one_hot_encoded&apos;</span>.format(label_encoder_tf.output_features))
 <span class="hljs-comment">#</span>
-<span class="hljs-comment">##To Dense</span>
-to_dense_tf = ToDense(one_hot_encoder_tf.output_features)
 
 <span class="hljs-comment"># Construct our pipeline</span>
 one_hot_encoder_pipeline_x0 = Pipeline([
@@ -1084,10 +1082,8 @@ MLeap comes with it&apos;s own OneHotEncoder that enables that function</p>
 
 <span class="hljs-comment">## Vector Assembler for x1 One Hot Encoder</span>
 one_hot_encoder_tf = OneHotEncoder(sparse=<span class="hljs-keyword">False</span>, drop_last=<span class="hljs-keyword">True</span>) <span class="hljs-comment"># Make sure to set sparse=False</span>
-one_hot_encoder_tf.mlinit(input_features = label_encoder_tf.output_features, output_features = <span class="hljs-string">&apos;{}_one_hot_encoded&apos;</span>.format(label_encoder_tf.output_features))
+one_hot_encoder_tf.mlinit(prior_tf=label_encoder_tf, output_features = <span class="hljs-string">&apos;{}_one_hot_encoded&apos;</span>.format(label_encoder_tf.output_features))
 <span class="hljs-comment">#</span>
-<span class="hljs-comment">##To Dense</span>
-to_dense_tf = ToDense(one_hot_encoder_tf.output_features)
 
 <span class="hljs-comment"># Construct our pipeline</span>
 one_hot_encoder_pipeline_x0 = Pipeline([
@@ -1148,7 +1144,7 @@ matrix([[ <span class="hljs-number">1.</span>,  <span class="hljs-number">0.</sp
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Transformers Guide","level":"1.5.1","depth":2,"next":{"title":"Tensorflow","level":"1.6","depth":1,"path":"tensorflow/index.md","ref":"tensorflow/index.md","articles":[{"title":"MLeap Integration","level":"1.6.1","depth":2,"path":"tensorflow/mleap-integration.md","ref":"tensorflow/mleap-integration.md","articles":[]},{"title":"Bundle Serialization","level":"1.6.2","depth":2,"path":"tensorflow/bundle-serialization.md","ref":"tensorflow/bundle-serialization.md","articles":[]}]},"previous":{"title":"Scikit-learn","level":"1.5","depth":1,"path":"scikit-learn/index.md","ref":"scikit-learn/index.md","articles":[{"title":"Transformers Guide","level":"1.5.1","depth":2,"path":"scikit-learn/transformers.md","ref":"scikit-learn/transformers.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"scikit-learn/transformers.md","mtime":"2017-05-25T14:57:27.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Transformers Guide","level":"1.5.1","depth":2,"next":{"title":"Tensorflow","level":"1.6","depth":1,"path":"tensorflow/index.md","ref":"tensorflow/index.md","articles":[{"title":"MLeap Integration","level":"1.6.1","depth":2,"path":"tensorflow/mleap-integration.md","ref":"tensorflow/mleap-integration.md","articles":[]},{"title":"Bundle Serialization","level":"1.6.2","depth":2,"path":"tensorflow/bundle-serialization.md","ref":"tensorflow/bundle-serialization.md","articles":[]}]},"previous":{"title":"Scikit-learn","level":"1.5","depth":1,"path":"scikit-learn/index.md","ref":"scikit-learn/index.md","articles":[{"title":"Transformers Guide","level":"1.5.1","depth":2,"path":"scikit-learn/transformers.md","ref":"scikit-learn/transformers.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"scikit-learn/transformers.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

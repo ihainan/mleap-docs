@@ -1023,14 +1023,14 @@ serialization strategies. The provided formats are:</p>
 not suit your usage needs.</p>
 <h2 id="sample-leap-frame">Sample Leap Frame</h2>
 <p>All serialization examples will use this leap frame.</p>
-<pre><code class="lang-scala"><span class="hljs-keyword">val</span> schema = <span class="hljs-type">StructType</span>(<span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;features&quot;</span>, <span class="hljs-type">TensorType</span>(<span class="hljs-type">DoubleType</span>())),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-type">StringType</span>()),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;list_data&quot;</span>, <span class="hljs-type">ListType</span>(<span class="hljs-type">StringType</span>())),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;nullable_double&quot;</span>, <span class="hljs-type">DoubleType</span>(<span class="hljs-literal">true</span>)),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;float&quot;</span>, <span class="hljs-type">FloatType</span>(<span class="hljs-literal">false</span>)),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;byte_tensor&quot;</span>, <span class="hljs-type">TensorType</span>(<span class="hljs-type">ByteType</span>(<span class="hljs-literal">false</span>))),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;short_list&quot;</span>, <span class="hljs-type">ListType</span>(<span class="hljs-type">ShortType</span>(<span class="hljs-literal">false</span>))),
-  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;nullable_string&quot;</span>, <span class="hljs-type">StringType</span>(<span class="hljs-literal">true</span>))).get
+<pre><code class="lang-scala"><span class="hljs-keyword">val</span> schema = <span class="hljs-type">StructType</span>(<span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;features&quot;</span>, <span class="hljs-type">TensorType</span>(<span class="hljs-type">BasicType</span>.<span class="hljs-type">Double</span>)),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-type">ScalarType</span>.<span class="hljs-type">String</span>),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;list_data&quot;</span>, <span class="hljs-type">ListType</span>(<span class="hljs-type">BasicType</span>.<span class="hljs-type">String</span>)),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;nullable_double&quot;</span>, <span class="hljs-type">ScalarType</span>(<span class="hljs-type">BasicType</span>.<span class="hljs-type">Double</span>, <span class="hljs-literal">true</span>)),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;float&quot;</span>, <span class="hljs-type">ScalarType</span>.<span class="hljs-type">Float</span>),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;byte_tensor&quot;</span>, <span class="hljs-type">TensorType</span>(<span class="hljs-type">BasicType</span>.<span class="hljs-type">Byte</span>)),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;short_list&quot;</span>, <span class="hljs-type">ListType</span>(<span class="hljs-type">BasicType</span>.<span class="hljs-type">Short</span>)),
+  <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;nullable_string&quot;</span>, <span class="hljs-type">ScalarType</span>(<span class="hljs-type">BasicType</span>.<span class="hljs-type">String</span>, <span class="hljs-literal">true</span>))).get
 <span class="hljs-keyword">val</span> dataset = <span class="hljs-type">LocalDataset</span>(<span class="hljs-type">Row</span>(<span class="hljs-type">Tensor</span>.denseVector(<span class="hljs-type">Array</span>(<span class="hljs-number">20.0</span>, <span class="hljs-number">10.0</span>, <span class="hljs-number">5.0</span>)),
   <span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-string">&quot;there&quot;</span>),
   <span class="hljs-type">Option</span>(<span class="hljs-number">56.7</span>d), <span class="hljs-number">32.4</span>f,
@@ -1066,8 +1066,7 @@ leap frame data.</p>
 }
 </code></pre>
 <h2 id="custom">Custom</h2>
-<p>It is possible to create custom serializers for leap frames. Here is
-how.</p>
+<p>It is possible to create custom serializers for leap frames.</p>
 
                                 
                                 </section>
@@ -1111,7 +1110,7 @@ how.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Storing a Leap Frame","level":"1.8.3","depth":2,"next":{"title":"JSON","level":"1.8.3.1","depth":3,"anchor":"#json","path":"mleap-runtime/storing.md","ref":"mleap-runtime/storing.md#json","articles":[]},"previous":{"title":"Select","level":"1.8.2.4","depth":3,"anchor":"#select","path":"mleap-runtime/leap-frame-operations.md","ref":"mleap-runtime/leap-frame-operations.md#select","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-runtime/storing.md","mtime":"2017-01-23T01:55:46.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-10T21:31:05.219Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Storing a Leap Frame","level":"1.8.3","depth":2,"next":{"title":"JSON","level":"1.8.3.1","depth":3,"anchor":"#json","path":"mleap-runtime/storing.md","ref":"mleap-runtime/storing.md#json","articles":[]},"previous":{"title":"Select","level":"1.8.2.4","depth":3,"anchor":"#select","path":"mleap-runtime/leap-frame-operations.md","ref":"mleap-runtime/leap-frame-operations.md#select","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-runtime/storing.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
