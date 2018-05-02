@@ -1018,7 +1018,7 @@ as a tool to get prototypes up and running quickly.</p>
 <h2 id="installation">Installation</h2>
 <p>MLeap serving is a Docker image hosted on <a href="https://hub.docker.com/r/combustml/mleap-serving/" target="_blank">Docker Hub</a>.</p>
 <p>To get started, pull the image to your local machine:</p>
-<pre><code>docker pull combustml/mleap-serving:0.8.0
+<pre><code>docker pull combustml/mleap-serving:0.9.0
 </code></pre><h2 id="usage">Usage</h2>
 <p>In order to start using your models as a REST API, we will need to:</p>
 <ol>
@@ -1032,15 +1032,15 @@ Make sure to mount a directory containing your models on the host
 machine into the container. In this example, we will be storing our
 models in <code>/tmp/models</code> and mounting it in the container at <code>/models</code>.</p>
 <pre><code>mkdir /tmp/models
-docker run -v /tmp/models:/models combustml/mleap-serving:0.8.0
+docker run -p 65327:65327 -v /tmp/models:/models combustml/mleap-serving:0.9.0
 </code></pre><p>This will expose the model server locally on port <code>65327</code>.</p>
 <h3 id="load-model">Load Model</h3>
 <p>Use curl to load the model into memory. If you don&apos;t have your own
 model, download one of our example models. Make sure to place it in the
 models directory you mounted when starting the server.</p>
 <ol>
-<li><a href="https://github.com/combust/mleap/blob/master/mleap-benchmark/src/main/resources/models/airbnb.model.lr.zip" target="_blank">AirBnB Linear Regression</a></li>
-<li><a href="https://github.com/combust/mleap/blob/master/mleap-benchmark/src/main/resources/models/airbnb.model.rf.zip" target="_blank">AirBnB Random Forest</a></li>
+<li><a href="https://github.com/combust/mleap/raw/master/mleap-benchmark/src/main/resources/models/airbnb.model.lr.zip" target="_blank">AirBnB Linear Regression</a></li>
+<li><a href="https://github.com/combust/mleap/raw/master/mleap-benchmark/src/main/resources/models/airbnb.model.rf.zip" target="_blank">AirBnB Random Forest</a></li>
 </ol>
 <pre><code>curl -XPUT -H &quot;content-type: application/json&quot; \
   -d &apos;{&quot;path&quot;:&quot;/models/&lt;my model&gt;.zip&quot;}&apos; \
@@ -1108,7 +1108,7 @@ but keep the server running, just DELETE the <code>model</code> resource:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"MLeap Serving","level":"1.7","depth":1,"next":{"title":"Start Server","level":"1.7.1","depth":2,"anchor":"#start-server","path":"mleap-serving/index.md","ref":"mleap-serving/index.md#start-server","articles":[]},"previous":{"title":"Bundle Serialization","level":"1.6.2","depth":2,"path":"tensorflow/bundle-serialization.md","ref":"tensorflow/bundle-serialization.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-serving/index.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MLeap Serving","level":"1.7","depth":1,"next":{"title":"Start Server","level":"1.7.1","depth":2,"anchor":"#start-server","path":"mleap-serving/index.md","ref":"mleap-serving/index.md#start-server","articles":[]},"previous":{"title":"Bundle Serialization","level":"1.6.2","depth":2,"path":"tensorflow/bundle-serialization.md","ref":"tensorflow/bundle-serialization.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"mleap-serving/index.md","mtime":"2018-05-02T16:34:42.705Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-02T16:35:15.725Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

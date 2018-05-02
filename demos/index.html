@@ -1074,15 +1074,14 @@ transform a leap frame.</p>
 }).opt.get
 
 <span class="hljs-comment">// create a simple LeapFrame to transform</span>
-<span class="hljs-keyword">import</span> ml.combust.mleap.runtime.{<span class="hljs-type">Row</span>, <span class="hljs-type">LeapFrame</span>, <span class="hljs-type">LocalDataset</span>}
+<span class="hljs-keyword">import</span> ml.combust.mleap.runtime.frame.{<span class="hljs-type">DefaultLeapFrame</span>, <span class="hljs-type">Row</span>}
 <span class="hljs-keyword">import</span> ml.combust.mleap.core.types._
 
 <span class="hljs-comment">// MLeap makes extensive use of monadic types like Try</span>
 <span class="hljs-keyword">val</span> schema = <span class="hljs-type">StructType</span>(<span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;test_string&quot;</span>, <span class="hljs-type">ScalarType</span>.<span class="hljs-type">String</span>),
   <span class="hljs-type">StructField</span>(<span class="hljs-string">&quot;test_double&quot;</span>, <span class="hljs-type">ScalarType</span>.<span class="hljs-type">Double</span>)).get
-<span class="hljs-keyword">val</span> data = <span class="hljs-type">LocalDataset</span>(<span class="hljs-type">Row</span>(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">0.6</span>),
-  <span class="hljs-type">Row</span>(<span class="hljs-string">&quot;MLeap&quot;</span>, <span class="hljs-number">0.2</span>))
-<span class="hljs-keyword">val</span> frame = <span class="hljs-type">LeapFrame</span>(schema, data)
+<span class="hljs-keyword">val</span> data = <span class="hljs-type">Seq</span>(<span class="hljs-type">Row</span>(<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">0.6</span>), <span class="hljs-type">Row</span>(<span class="hljs-string">&quot;MLeap&quot;</span>, <span class="hljs-number">0.2</span>))
+<span class="hljs-keyword">val</span> frame = <span class="hljs-type">DefaultLeapFrame</span>(schema, data)
 
 <span class="hljs-comment">// transform the dataframe using our pipeline</span>
 <span class="hljs-keyword">val</span> mleapPipeline = bundle.root
@@ -1090,11 +1089,11 @@ transform a leap frame.</p>
 <span class="hljs-keyword">val</span> data2 = frame2.dataset
 
 <span class="hljs-comment">// get data from the transformed rows and make some assertions</span>
-assert(data2(<span class="hljs-number">0</span>).getDouble(<span class="hljs-number">2</span>) == <span class="hljs-number">0.0</span>) <span class="hljs-comment">// string indexer output</span>
+assert(data2(<span class="hljs-number">0</span>).getDouble(<span class="hljs-number">2</span>) == <span class="hljs-number">1.0</span>) <span class="hljs-comment">// string indexer output</span>
 assert(data2(<span class="hljs-number">0</span>).getDouble(<span class="hljs-number">3</span>) == <span class="hljs-number">1.0</span>) <span class="hljs-comment">// binarizer output</span>
 
 <span class="hljs-comment">// the second row</span>
-assert(data2(<span class="hljs-number">1</span>).getDouble(<span class="hljs-number">2</span>) == <span class="hljs-number">1.0</span>)
+assert(data2(<span class="hljs-number">1</span>).getDouble(<span class="hljs-number">2</span>) == <span class="hljs-number">2.0</span>)
 assert(data2(<span class="hljs-number">1</span>).getDouble(<span class="hljs-number">3</span>) == <span class="hljs-number">0.0</span>)
 </code></pre>
 <p>That&apos;s it! This is a very simple example. Most likely you will not be
@@ -1145,7 +1144,7 @@ our <a href="minst.md">MNIST Demo</a>.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Demos","level":"1.9","depth":1,"next":{"title":"MNIST","level":"1.9.1","depth":2,"path":"demos/mnist.md","ref":"demos/mnist.md","articles":[]},"previous":{"title":"Spark Registry","level":"1.8.7.7","depth":3,"anchor":"#spark-registry","path":"mleap-runtime/custom-transformer.md","ref":"mleap-runtime/custom-transformer.md#spark-registry","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"demos/index.md","mtime":"2017-10-08T20:58:28.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Demos","level":"1.9","depth":1,"next":{"title":"MNIST","level":"1.9.1","depth":2,"path":"demos/mnist.md","ref":"demos/mnist.md","articles":[]},"previous":{"title":"Spark Registry","level":"1.8.7.7","depth":3,"anchor":"#spark-registry","path":"mleap-runtime/custom-transformer.md","ref":"mleap-runtime/custom-transformer.md#spark-registry","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"demos/index.md","mtime":"2018-05-02T16:34:42.699Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-02T16:35:15.725Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

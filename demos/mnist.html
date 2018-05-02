@@ -1114,18 +1114,21 @@
 
 <span class="hljs-keyword">val</span> pipeline = <span class="hljs-type">SparkUtil</span>.createPipelineModel(uid = <span class="hljs-string">&quot;pipeline&quot;</span>, <span class="hljs-type">Array</span>(featureModel, rfModel))
 
-<span class="hljs-keyword">val</span> sbc = <span class="hljs-type">SparkBundleContext</span>()
+<span class="hljs-keyword">val</span> sbc = <span class="hljs-type">SparkBundleContext</span>().withDataset(rfModel.transform(datasetWithFeatures))
 <span class="hljs-keyword">for</span>(bf &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mnist-spark-pipeline.zip&quot;</span>))) {
         pipeline.writeBundle.save(bf)(sbc).get
 }
 </code></pre>
 <h3 id="deserialize-to-mleap-and-score-new-data">Deserialize to MLeap and Score New Data</h3>
 <p>The goal of this step is to show how to deserialize a <code>bundle</code> and use it to score LeapFrames without any Spark dependencies. You can download the <a href="https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist.json" target="_blank">mnist.json</a> from our s3 bucket.</p>
-<pre><code class="lang-scala"><span class="hljs-keyword">import</span> ml.combust.bundle.<span class="hljs-type">BundleFile</span>
-<span class="hljs-keyword">import</span> ml.combust.mleap.<span class="hljs-type">MleapSupport</span>._
+<pre><code class="lang-scala"><span class="hljs-keyword">import</span> ml.combust.mleap.runtime.<span class="hljs-type">MleapSupport</span>._
+<span class="hljs-keyword">import</span> ml.combust.mleap.runtime.<span class="hljs-type">MleapContext</span>.defaultContext
+<span class="hljs-keyword">import</span> java.io.<span class="hljs-type">File</span>
 
 <span class="hljs-comment">// load the Spark pipeline we saved in the previous section</span>
-<span class="hljs-keyword">val</span> bundle = <span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;/tmp/mnist-spark-pipeline.zip&quot;</span>).load().get
+<span class="hljs-keyword">val</span> mleapPipeline = (<span class="hljs-keyword">for</span>(bf &lt;- managed(<span class="hljs-type">BundleFile</span>(<span class="hljs-string">&quot;jar:file:/tmp/mnist-spark-pipeline.zip&quot;</span>))) <span class="hljs-keyword">yield</span> {
+      bf.loadMleapBundle().get.root
+    }).tried.get
 </code></pre>
 <p>Load the sample LeapFrame from the mleap-demo git repo (data/mnist.json)</p>
 <pre><code class="lang-scala"><span class="hljs-keyword">import</span> ml.combust.mleap.runtime.serialization.<span class="hljs-type">FrameReader</span>
@@ -1136,7 +1139,6 @@
 <span class="hljs-keyword">val</span> frame = <span class="hljs-type">FrameReader</span>(<span class="hljs-string">&quot;ml.combust.mleap.json&quot;</span>).fromBytes(bytes)
 
 <span class="hljs-comment">// transform the dataframe using our pipeline</span>
-<span class="hljs-keyword">val</span> mleapPipeline = bundle.root
 <span class="hljs-keyword">val</span> frame2 = mleapPipeline.transform(frame).get
 <span class="hljs-keyword">val</span> data = frame2.dataset
 </code></pre>
@@ -1184,7 +1186,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"MNIST","level":"1.9.1","depth":2,"next":{"title":"Notebooks","level":"1.10","depth":1,"path":"notebooks/index.md","ref":"notebooks/index.md","articles":[{"title":"Zeppelin","level":"1.10.1","depth":2,"path":"notebooks/zeppelin.md","ref":"notebooks/zeppelin.md","articles":[]},{"title":"Jupyter","level":"1.10.2","depth":2,"path":"notebooks/jupyter.md","ref":"notebooks/jupyter.md","articles":[]},{"title":"Databricks","level":"1.10.3","depth":2,"path":"notebooks/databricks.md","ref":"notebooks/databricks.md","articles":[]}]},"previous":{"title":"Demos","level":"1.9","depth":1,"path":"demos/index.md","ref":"demos/index.md","articles":[{"title":"MNIST","level":"1.9.1","depth":2,"path":"demos/mnist.md","ref":"demos/mnist.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"demos/mnist.md","mtime":"2017-08-10T21:31:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-10-08T20:58:34.823Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"MNIST","level":"1.9.1","depth":2,"next":{"title":"Notebooks","level":"1.10","depth":1,"path":"notebooks/index.md","ref":"notebooks/index.md","articles":[{"title":"Zeppelin","level":"1.10.1","depth":2,"path":"notebooks/zeppelin.md","ref":"notebooks/zeppelin.md","articles":[]},{"title":"Jupyter","level":"1.10.2","depth":2,"path":"notebooks/jupyter.md","ref":"notebooks/jupyter.md","articles":[]},{"title":"Databricks","level":"1.10.3","depth":2,"path":"notebooks/databricks.md","ref":"notebooks/databricks.md","articles":[]}]},"previous":{"title":"Demos","level":"1.9","depth":1,"path":"demos/index.md","ref":"demos/index.md","articles":[{"title":"MNIST","level":"1.9.1","depth":2,"path":"demos/mnist.md","ref":"demos/mnist.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"demos/mnist.md","mtime":"2018-05-02T16:34:42.699Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-02T16:35:15.725Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
