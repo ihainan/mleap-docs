@@ -1,24 +1,22 @@
-# Getting Started with MLeap
+# Getting Started with MLeap | Mleap 上手
 
-The MLeap runtime itself provides everything needed to execute and
-serialize entire ML pipelines. It does not include anything required for
-training ML pipelines. In order to start with MLeap, you will need to
-add it to your project.
+The MLeap runtime itself provides everything needed to execute and serialize entire ML pipelines. It does not include anything required for training ML pipelines. In order to start with MLeap, you will need to add it to your project.
 
-## Adding MLeap to Your Project
+MLeap Runtime 已经包含了所有用于执行和序列化 Pipeline 的依赖，但并没有集成用于训练 ML Pipeline 的包。因此开始使用 MLeap 之前，你需要手动添加 MLeap 相关依赖到你的项目当中。
 
-MLeap and its snapshots are hosted on Maven Central and so should be
-easily accessible via a maven build file or SBT. MLeap is currently
-cross-compiled for Scala versions 2.10 and 2.11. We try to maintain
-Scala compatibility with Spark.
+## Adding MLeap to Your Project | 添加 MLeap 依赖到你的项目中
 
-### Using SBT
+MLeap and its snapshots are hosted on Maven Central and so should be easily accessible via a maven build file or SBT. MLeap is currently cross-compiled for Scala versions 2.10 and 2.11. We try to maintain Scala compatibility with Spark.
+
+MLeap 依赖包及其快照（Snapshots）已经被托管在 Maven Central 之上了，所以 Maven 构建文件或者 SBT 都能轻松获取得到这些包。MLeap 目前分别基于 Scala 2.10 和 2.11 做了交叉编译，我们尝试去维护与 Spark 相兼容的 Scala 版本。
+
+### Using SBT | 使用 SBT
 
 ```sbt
 libraryDependencies += "ml.combust.mleap" %% "mleap-runtime" % "0.9.0"
 ```
 
-### Using Maven
+### Using Maven | 使用 Maven
 
 ```pom
 <dependency>
@@ -30,13 +28,14 @@ libraryDependencies += "ml.combust.mleap" %% "mleap-runtime" % "0.9.0"
 
 If you are packaging libraries into a single JAR, you need to use the Maven Shade plugin with the following transformer to ensure `reference.conf` files are merged instead of being overwritten:
 
+如果想把依赖包打包成独立的 Jar 包的话，你需要使用 Maven Shade 插件，并在插件配置中添加如下的 transformer ，以确保 `reference.conf` 能够被正确合并，而非被其他文件覆盖。
+
 ```pom
 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-    <resource>reference.conf</resource>
+	<resource>reference.conf</resource>
 </transformer>
 ```
 
-1. See [build instructions](./building.html) to build MLeap from source.
-2. See [core concepts](../core-concepts/) for an overview of ML pipelines.
-3. See [basic usage](../basic/) of MLeap to start transforming leap frames.
-
+1. See [build instructions](./building.html) to build MLeap from source.  | 参见 [编译指南](./building.html) 章节，从源码编译 MLeap。
+2. See [core concepts](../core-concepts/) for an overview of ML pipelines. | 参见  [核心概念](../core-concepts/) 章节，从整体上了解 ML Pipeline。
+3. See [basic usage](../basic/) of MLeap to start transforming leap frames. | 参见 [基础用法](../basic/) 章节，来实现 Leap Frame 的转换操作。
