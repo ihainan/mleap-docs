@@ -1,10 +1,6 @@
 # Pipelines
 
-Machine learning pipelines are series of transformers that execute on a
-data frame. They allow us to combine our feature transformations
-together with our actual predictive algorithms. Pipelines can be as
-simple as a single transformer or quite complex, involving hundreds of
-feature transformers and multiple predictive algorithms.
+Machine learning pipelines are series of transformers that execute on a data frame. They allow us to combine our feature transformations together with our actual predictive algorithms. Pipelines can be as simple as a single transformer or quite complex, involving hundreds of feature transformers and multiple predictive algorithms.
 
 
 # Simple Pipeline Example

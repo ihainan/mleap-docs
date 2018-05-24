@@ -2,8 +2,7 @@
 
 Here is a list of all supported transformers in all of the core platforms that MLeap supports.
 
-NOTE: Tensorflow has no listed support here, but it is possible to
-[include Tensorflow graphs in an MLeap transformer pipeline](../../integration/tensorflow/usage.html).
+NOTE: Tensorflow has no listed support here, but it is possible to [include Tensorflow graphs in an MLeap transformer pipeline](../../integration/tensorflow/usage.html).
 
 ## Features
 
