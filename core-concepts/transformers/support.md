@@ -1,10 +1,14 @@
-# Supported Transformers
+# Supported Transformers | 支持的 Transformer
 
 Here is a list of all supported transformers in all of the core platforms that MLeap supports.
 
+以下是 MLeap 支持的所有 Transformer。
+
 NOTE: Tensorflow has no listed support here, but it is possible to [include Tensorflow graphs in an MLeap transformer pipeline](../../integration/tensorflow/usage.html).
 
-## Features
+注意：TensorFlow 的相关支持情况并没有被列在这里，但你可以 [在一个 MLeap Transformer Pipline 中插入任意 TensorFlow Graph](../../integration/tensorflow/usage.html)。
+
+## Features | 特征相关
 
 | Transformer| Spark | MLeap | Scikit-Learn | TensorFlow |
 |---|:---:|:---:|:---:|:---:|
@@ -38,7 +42,7 @@ NOTE: Tensorflow has no listed support here, but it is possible to [include Tens
 | VectorSlicer | x | x | | |
 | WordToVector | x | x | | | |
 
-## Classification
+## Classification | 分类相关
 
 | Transformer | Spark| MLeap | Scikit-Learn  | TensorFlow |
 |---|:---:|:---:|:---:|:---:|
@@ -52,7 +56,7 @@ NOTE: Tensorflow has no listed support here, but it is possible to [include Tens
 | SupportVectorMachines | x | x | x | |
 | MultiLayerPerceptron | x | x | | | |
 
-## Regression
+## Regression | 回归相关
 
 | Transformer | Spark | MLeap | Scikit-Learn | TensorFlow |
 |---|:---:|:---:|:---:|:---:|
@@ -65,7 +69,7 @@ NOTE: Tensorflow has no listed support here, but it is possible to [include Tens
 | RandomForestRegression | x | x | x | | |
 
 
-## Clustering
+## Clustering | 聚类相关
 
 | Transformer | Spark | MLeap | Scikit-Learn | TensorFlow |
 |---|:---:|:---:|:---:|:---:|
@@ -74,14 +78,14 @@ NOTE: Tensorflow has no listed support here, but it is possible to [include Tens
 | KMeans | x | x | | |
 | LDA | x | | | | |
 
-## Extensions
+## Extensions | 扩展
 | Transformer | Spark | MLeap | Scikit-Learn | TensorFlow | Description |
 |---|:---:|:---:|:---:|:---:|:---|
-| MathUnary | x | x | x | | Simple set of unary mathematical operations |
-| MathBinary | x | x | x | | Simple set of binary mathematical operations |
-| StringMap | x | x | x | | Maps a string to a double |
+| MathUnary | x | x | x | | Simple set of unary mathematical operations \| 一元数学计算集合 |
+| MathBinary | x | x | x | | Simple set of binary mathematical operations \| 二元数学计算集合 |
+| StringMap | x | x | x | | Maps a string to a double \| 映射字符串为 double 值。 |
 
-## Recommendation
+## Recommendation | 推荐算法
 | Transformer | Spark | MLeap | Scikit-Learn | TensorFlow |
 |---|:---:|:---:|:---:|:---:|
 | ALS | x | | | | |
