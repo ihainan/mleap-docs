@@ -72,6 +72,7 @@ matrix([[ 1.,  0.,  0.],
 ```
 
 One of the short-comings of Scikit's OneHotEncoder is that it's missing a `drop_last` functionality that's required in ML pipelines. 
+
 MLeap comes with it's own OneHotEncoder that enables that function
 
 ### MLeap OneHotEncoder

@@ -9,7 +9,7 @@ MLeap Bundle 是一个基于图、跨平台的文件格式，它可以用于序�
 
 Bundles make it very easy to share the results of your training pipeline, simply generate a bundle file and send it through email to a colleague or just view the metadata of your data pipeline and algorithm!
 
-​		Bundles also make deployments simple: just export your bundle and load it into your Spark, Scikit-learn, or MLeap-based application.
+Bundles also make deployments simple: just export your bundle and load it into your Spark, Scikit-learn, or MLeap-based application.
 
 Bundle 的部署也非常简单，只需要导出你的 Bundle，把它加载到你的 Spark、Scikit-Learn，又或者是你基于 MLeap 开发的应用程序中。
 

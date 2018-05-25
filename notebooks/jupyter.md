@@ -1,7 +1,6 @@
 ## Jupyter Setup
 
-To run Spark within Jupyter we recommend using the Toree kernel.
-We are going to assume you already have the following installed:
+To run Spark within Jupyter we recommend using the Toree kernel. We are going to assume you already have the following installed:
 1. Python 2.x
 2. PIP
 3. Docker (required to install Toree)

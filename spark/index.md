@@ -5,15 +5,11 @@ MLeap's Spark integration comes with the following feature set:
 * Support of additional feature transformers and models (ex: SVM, OneVsRest, MapTransform)
 * Support for custom transformers
 
-To use MLeap you do not have to change how you construct your existing pipelines, so the rest of the documentation is going to focus on how to serialize and deserialize your pipeline to and from bundle.ml.
-To see how to execute your pipeline outside of Spark, refer to the [MLeap Runtime](../mleap-runtime/index.md) section.
+To use MLeap you do not have to change how you construct your existing pipelines, so the rest of the documentation is going to focus on how to serialize and deserialize your pipeline to and from bundle.ml. To see how to execute your pipeline outside of Spark, refer to the [MLeap Runtime](../mleap-runtime/index.md) section.
 
 # Serializing with Spark
 
-Serializing and deserializing with Spark works almost exactly the same
-as with MLeap. The only difference is we are serializing and
-deserializing Spark pipelines and we need to import different implicit
-support classes.
+Serializing and deserializing with Spark works almost exactly the same as with MLeap. The only difference is we are serializing and deserializing Spark pipelines and we need to import different implicit support classes.
 
 ## Create a Simple Spark Pipeline
 
@@ -40,8 +36,7 @@ val pipeline = SparkUtil.createPipelineModel(Array(stringIndexer, featureAssembl
 
 ## Serialize to Zip File
 
-In order to serialize to a zip file, make sure the URI begins with
-`jar:file` and ends with a `.zip`.
+In order to serialize to a zip file, make sure the URI begins with `jar:file` and ends with a `.zip`.
 
 For example
 `jar:file:/tmp/mleap-bundle.zip`.
@@ -64,8 +59,7 @@ for(bundle <- managed(BundleFile("jar:file:/tmp/mleap-examples/simple-protobuf.z
 
 ## Serialize to Directory
 
-In order to serialize to a directory, make sure the URI begins with
-`file`.
+In order to serialize to a directory, make sure the URI begins with `file`.
 
 For example `file:/tmp/mleap-bundle-dir`
 
@@ -87,9 +81,7 @@ for(bundle <- managed(BundleFile("file:/tmp/mleap-examples/simple-protobuf-dir")
 
 ## Deserializing
 
-Deserializing is just as easy as serializing. You don't need to know the
-format the MLeap Bundle was serialized as beforehand, you just need to
-know where the bundle is.
+Deserializing is just as easy as serializing. You don't need to know the format the MLeap Bundle was serialized as beforehand, you just need to know where the bundle is.
 
 ### From Zip Bundle
 

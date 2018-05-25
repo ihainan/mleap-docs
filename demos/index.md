@@ -1,17 +1,10 @@
 # Basic Demo
 
-This basic demo will guide you through using Spark to build and export
-an ML pipeline to an MLeap Bundle and later use it to transform a data
-frame using the MLeap Runtime.
+This basic demo will guide you through using Spark to build and export an ML pipeline to an MLeap Bundle and later use it to transform a data frame using the MLeap Runtime.
 
 ## Build and Export an MLeap Bundle
 
-In this section we will programmatically create a simple Spark ML
-pipeline then export it to an MLeap Bundle. Our pipeline is very simple,
-it performs string indexing on a categorical feature then runs the
-result through a binarizer to force the result to a 1 or 0. This
-pipeline has no real-world purpose, but illustrates how easy it is to
-create MLeap Bundles from Spark ML pipelines.
+In this section we will programmatically create a simple Spark ML pipeline then export it to an MLeap Bundle. Our pipeline is very simple, it performs string indexing on a categorical feature then runs the result through a binarizer to force the result to a 1 or 0. This pipeline has no real-world purpose, but illustrates how easy it is to create MLeap Bundles from Spark ML pipelines.
 
 ```scala
 import ml.combust.bundle.BundleFile
@@ -58,9 +51,7 @@ NOTE: right click and "Save As...", Gitbook prevents directly clicking on the li
 
 ## Import and MLeap Bundle
 
-In this section we will load the MLeap Bundle from the first section
-into the MLeap Runtime. We will then use the MLeap Runtime transformer to
-transform a leap frame.
+In this section we will load the MLeap Bundle from the first section into the MLeap Runtime. We will then use the MLeap Runtime transformer to transform a leap frame.
 
 ```scala
 import ml.combust.bundle.BundleFile
@@ -95,9 +86,5 @@ assert(data2(1).getDouble(2) == 2.0)
 assert(data2(1).getDouble(3) == 0.0)
 ```
 
-That's it! This is a very simple example. Most likely you will not be
-manually constructing Spark ML pipelines as we have done here, but
-rather you will be using estimators and pipelines together to train on
-your data and produce useful models. For a more advanced example, see
-our [MNIST Demo](../demos/minst.md).
+That's it! This is a very simple example. Most likely you will not be manually constructing Spark ML pipelines as we have done here, but rather you will be using estimators and pipelines together to train on your data and produce useful models. For a more advanced example, see our [MNIST Demo](../demos/minst.md).
 

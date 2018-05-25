@@ -1,7 +1,6 @@
 # MLeap Scikit-Learn Integration
 
-MLeap provides serialization functionality to Scikit Pipelines, Feature Unions and Transformers to Bundle.Ml in such a way that we maintain parity between Scikit and Spark transformers' functionality.
-There are two main use-cases for MLeap-Scikit:
+MLeap provides serialization functionality to Scikit Pipelines, Feature Unions and Transformers to Bundle.Ml in such a way that we maintain parity between Scikit and Spark transformers' functionality. There are two main use-cases for MLeap-Scikit:
 1. Serialize Scikit Pipelines and execute using MLeap Runtime
 2. Serialize Scikit Pipelines and deserialize with Spark
 
@@ -14,8 +13,10 @@ There are a couple of important differences in how scikit transformers work and 
 2. Spark transformers can opperate on a vector, where as scikit operates on a n-dimensional arrays and matrices
 3. Spark, because it is written in Scala, makes it easy to add implicit functions and attributes, with scikit it is a bit trickier and requires use of setattr()
 
-Because of these additional complexities, there are a few paradigms we have to follow when extending scikit transformers with MLeap.
+Because of these additional complexities, there are a few paradigms we have to follow when extending scikit transformers with MLeap. 
+
 First is we have to initialize each transformer to include:
+
 * Op: Unique `op` name - this is used as a link to Spark-based transformers (i.e. a Standard Scaler in scikit is the same as in Spark, so we have an op called `standard_scaler` to represent it)
 * Name: A unique name for each transformer. For example, if you have multiple Standard Scaler objects, each needs to be assigned a unque name
 * Input Column: Strictly for serialization, we set what the input column is

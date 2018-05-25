@@ -11,6 +11,7 @@ For documentation on writing custom transformers, see the [Custom Transformers](
 MLeap is optimized to deliver execution of ML Pipelines in microseconds (1/1000 of milliseconds, because we get asked to clarify this).
 
 Actual executions speed will depend on how many nodes are in your pipeline, but we standardize benchmarking on our AirBnb pipeline and test it against using the `SparkContext` with a `LocalRelation` DataFrame.
+
 The two sets of benchmarks share the same feature pipeline, comprised of vector assemblers, standard scalers, string indexers, one-hot-encoders, but at the end execute:
 
 * Linear Regression: 6.2 microseconds (.0062 milliseconds) vs 106 milliseconds with Spark LocalRelation
@@ -57,22 +58,17 @@ MLeap 0.9.0 release provides a stable serialization format and runtime API for M
 
 ## Why Not Use a SparkContext with a LocalRelation DataFrame to Transform?
 
-APIs relying on Spark Context can be optimized to process queries in ~100ms, and that is often too slow for many enterprise needs. For example, marketing platforms
-need sub-5 millisecond response times for many requests. MLeap offers execution of complex pipelines with sub-millisecond performance. MLeap's performance is attributed to supporting technologies like the Scala Breeze library for linear algebra.
+APIs relying on Spark Context can be optimized to process queries in ~100ms, and that is often too slow for many enterprise needs. For example, marketing platforms need sub-5 millisecond response times for many requests. MLeap offers execution of complex pipelines with sub-millisecond performance. MLeap's performance is attributed to supporting technologies like the Scala Breeze library for linear algebra.
 
 ## Is Spark MLlib Supported?
 
 Spark ML Pipelines already support a lot of the same transformers and models that are part of MLlib. In addition, we offer a wrapper around MLlib SupportVectorMachine in our `mleap-spark-extension` module.
+
 If you find that something is missing from Spark ML that is found in MLlib, please let us know or contribute your own wrapper to MLeap.
 
 ## How Does TensorFlow Integration Work?
 
-Presently Tensorflow integration works by using the official Tensorflow
-SWIG wrappers. We may eventually change this to use JavaCPP bindings, or
-even take an erlang-inspired approach and have a separate Tensorflow
-process for executing Tensorflow graphs. However we end up doing it, the
-interface will stay the same and you will always be able to transform
-your leap frames with the `TensorflowTransformer`.
+Presently Tensorflow integration works by using the official Tensorflow SWIG wrappers. We may eventually change this to use JavaCPP bindings, or even take an erlang-inspired approach and have a separate Tensorflow process for executing Tensorflow graphs. However we end up doing it, the interface will stay the same and you will always be able to transform your leap frames with the `TensorflowTransformer`.
 
 ## How Can I Contribute?
 

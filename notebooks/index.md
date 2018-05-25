@@ -3,6 +3,7 @@
 We have put together a number of notebooks to demonstrate MLeap usage with Spark, Scikit and soon TensorFlow. The demo notebooks can be found on our [mleap-demo](https://github.com/combust/mleap-demo) github repository. Child pages below also include instructions for how to include MLeap within your notebook environment of choice.
 
 Our goal is to maintain parity between notebooks for Jupyter/Zeppelin/DataBricks and Spark/Scikit/TensorFlow. 
+
 Here is a list of demo notebooks we have available today:
 
 ### AirBnb Price Prediction
