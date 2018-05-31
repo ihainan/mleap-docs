@@ -2,24 +2,33 @@
 
 This tutorial shows you how to use MLeap and Bundle.ML components to export a trained Spark ML Pipeline and use MLeap to transform new data without any dependencies on the Spark Context.
 
+本教程会向你展示如何使用 MLeap 和 Bundle.ML 组件来导出一个 Spark ML Pipeline，并在完全不依赖 Spark Context 的前提下，使用 MLeap 来转换新数据。
+
 We will construct an ML Pipeline comprised of a Vector Assembler, a Binarizer, PCA and a Random Forest Model for handwritten image classification on the MNIST dataset. The goal of this exercise is not to train the optimal model, but rather to demonstrate the simplicity of going from training a pipeline in Spark and deploying that same pipeline (data processing + the algorithm) outside of Spark.
 
-The code for this tutorial is split up into two parts:
-* Spark ML Pipeline Code: Vanilla/out-of-the-box Spark code to train the ML Pipeline, which we serialize to Bundle.ML
-* MLeap Code: Load the serialized Bundle to Mleap and transform Leap Frames
+我们会构建一个基于 MNIST 数据集训练，包含一个 Vector Assembler、一个 Binarizer、一个 PCA 以及一个 Random Forest Model，用于手写图像分类的 Pipeline。这个练习的目的不是为了训练得到一个最优模型，而是演示在 Spark 中训练一个 Pipeline 然后在 Spark 之外部署这个 Pipeline（数据处理 + 算法）是多么得简单。
+
+The code for this tutorial is split up into two parts: 
+
+本教程的代码分为两个部分：
+
+* Spark ML Pipeline Code: Vanilla/out-of-the-box Spark code to train the ML Pipeline, which we serialize to Bundle.ML | Spark ML Pipeline 代码：原生 Spark 代码，用于训练 ML Pipeline，而后把它序列化成 Bundle.ML。
+* MLeap Code: Load the serialized Bundle to Mleap and transform Leap Frames | MLeap 代码：加载一个序列化后的 Bundle 到 MLeap，然后用其转换 Leap Frame。
 
 Some terms before we begin:
 
-#### Nouns
+开始之前，我们先来了解一些术语：
 
-* Estimator: The actual learning algorithms that train/fit the transformer against the data frame and produces a Model
-* Model: In Spark, the model is the code and metadata needed to score against an already trained algorithm 
-* Transformer: Anything that transforms a data frame, does not necessarily be trained by an estimator (i.e. a Binarizer)
-* LeapFrame: A dataframe structure used for storing your data and the associated schema
+#### Nouns | 名词
 
-### Train a Spark Pipeline
+* Estimator: The actual learning algorithms that train/fit the transformer against the data frame and produces a Model | Estimator：真正意义上的机器学习算法，基于 Data Frame 训练 Transformer 并产生一个模型。
+* Model: In Spark, the model is the code and metadata needed to score against an already trained algorithm | 模型：在 Spark 里面，模型是代码和元数据，它基于训练过的算法对新数据进行评分。
+* Transformer: Anything that transforms a data frame, does not necessarily be trained by an estimator (i.e. a Binarizer) | Transformer：任何用于转换 Data Frame 的都被叫做 Transformer，对于训练一个 Estimator 来说 Transformer 不是必须的（例如一个 Binarizer）。
+* LeapFrame: A dataframe structure used for storing your data and the associated schema | LeapFrame：一种 Data Frame 的数据结构，用于存储数据以及相关联的 Schema。
 
-#### Load the data
+### Train a Spark Pipeline | 训练一个 Spark Pipeline
+
+#### Load the data | 加载数据
 ```scala
 // Note that we are taking advantage of com.databricks:spark-csv package to load the data
 import org.apache.spark.ml.feature.{VectorAssembler,StringIndexer,IndexToString, Binarizer}
@@ -49,9 +58,13 @@ var test = spark.sqlContext.read.format("com.databricks.spark.csv").
 
 You can download the [training](https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist_train.csv.gz) and [test](https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist_test.csv.gz) dataset (gzipped from s3) and of course you'll have to adjust the `datasetPath` and `testDatasetPath`.
 
+你可以下载 [训练](https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist_train.csv.gz) and [测试](https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist_test.csv.gz) 数据集（存放在 S3 上），当然你必须要修改成自己的 `datasetPath` 和 `testDatasetPath`。
+
 The original data is hosted on [Yann LeCun's website](http://yann.lecun.com/exdb/mnist/).
 
-#### Build the ML Data Pipeline
+原始数据托管在 [Yann LeCun 的网站上](http://yann.lecun.com/exdb/mnist/)
+
+#### Build the ML Data Pipeline | 构建 ML Data Pipeline
 
 ```scala
 // Define Dependent and Independent Features
@@ -95,7 +108,9 @@ val datasetPcaFeaturesOnlyPersisted = datasetPcaFeaturesOnly.persist()
 
 We could make the random forest model be part of the same pipeline, however, there is an existing bug ([SPARK-16845](https://issues.apache.org/jira/browse/SPARK-16845)] that prevents us from doing that (will be fixed in 2.2.0).
 
-#### Train a Random Forest Model
+我们本想让 Pipeline 包含随机森林模型，但目前有一个 Bug ([SPARK-16845](https://issues.apache.org/jira/browse/SPARK-16845)] 让我们暂时没法这么做（这个问题会在 2.2.0 中得到修复）。
+
+#### Train a Random Forest Model | 训练一个随机森林模型
 ```scala
 // You can optionally experiment with CrossValidator and MulticlassClassificationEvaluator to determine optimal
 // settings for the random forest
@@ -110,7 +125,7 @@ val rf = new RandomForestClassifier().
 val rfModel = rf.fit(datasetPcaFeaturesOnlyPersisted)
 ```
 
-#### Serialize the ML Data Pipeline and RF Model to Bundle.ML
+#### Serialize the ML Data Pipeline and RF Model to Bundle.ML | 序列化 ML Data Pipeline 和 RF Model 为 Bundle.ML
 ```scala
 import org.apache.spark.ml.mleap.SparkUtil
 
@@ -122,9 +137,11 @@ for(bf <- managed(BundleFile("jar:file:/tmp/mnist-spark-pipeline.zip"))) {
 }
 ```
 
-### Deserialize to MLeap and Score New Data
+### Deserialize to MLeap and Score New Data | 反序列化为 MLeap 和评分新数据
 
 The goal of this step is to show how to deserialize a `bundle` and use it to score LeapFrames without any Spark dependencies. You can download the [mnist.json](https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist.json) from our s3 bucket.
+
+这一步的目的是展示如何反序列一个 `bundle` 然后使用它来对 Leap Frame 进行评分，而无需任何 Spark 依赖。你可以从我们的 S3 存储桶下载这个 [mnist.json](https://s3-us-west-2.amazonaws.com/mleap-demo/mnist/mnist.json)。
 
 ```scala
 import ml.combust.mleap.runtime.MleapSupport._
@@ -139,6 +156,9 @@ val mleapPipeline = (for(bf <- managed(BundleFile("jar:file:/tmp/mnist-spark-pip
 ```
 
 Load the sample LeapFrame from the mleap-demo git repo (data/mnist.json)
+
+从我们的 mleap-demo Git 仓库中加载一个样例 Leap Frame（data/mnist.json）。
+
 ```scala
 import ml.combust.mleap.runtime.serialization.FrameReader
 
@@ -153,3 +173,5 @@ val data = frame2.dataset
 ```
 
 What next? You can find more examples and notebooks [here](https://github.com/combust/mleap-demo).
+
+接下来你可以从 [这里](https://github.com/combust/mleap-demo) 拿到更多的示例和 Notebook。

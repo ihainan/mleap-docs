@@ -2,7 +2,7 @@
 
 MLeap Runtime is a lightweight, yet highly optimized, execution engine for Machine Learning Pipelines. The goal of MLeap Runtime is to provide production-level serving/scoring infrastructure for common machine learning frameworks, without the dependency on their core libraries. Meaning:
 
-MLeap 运行时（MLeap Runtime）是一个轻量级但被高度优化过的机器学习 Pipeline 执行引擎。MLeap 运行时的目标是提供一个能够达到生产级别，适用于常用机器学习框架的的服务 / 评分架构，它的使用无需再依赖于原框架的核心函数库，这就意味着：
+MLeap Runtime 是一个轻量级但被高度优化过的机器学习 Pipeline 执行引擎。MLeap runtime 的目标是提供一个能够达到生产级别，适用于常用机器学习框架的的服务 / 评分架构，它的使用无需再依赖于原框架的核心函数库，这就意味着：
 
 * Execute Spark ML Pipelines without the dependency on the spark context, distributed data frames, and costly execution plans | 执行 Spakr ML Pipeline，而无需依赖于 Spark Context，分布式 Data Frame，以及耗时的执行方案（Execution Plan）
 * Execute Scikit-learn pipelines without the dependency on numpy, pandas, scipy or other libraries used in training | 执行 Scikit-Learn Pipeline，而无需依赖于 numpy、pandas、scipy 或者其他用于训练的函数库 。  

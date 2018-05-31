@@ -282,14 +282,14 @@ A registry contains all of the custom transformers and types for a given executi
 
 MLeap uses [Typesafe Config](https://github.com/typesafehub/config) to configure registries. By default, MLeap ships with registries configured for the Spark runtime and the MLeap runtime. You can take a look at each of them here:
 
-MLeap 使用  [Typesafe Config](https://github.com/typesafehub/config) 来配置这些注册表。你可以通过如下链接来看一下对应的配置文件：  
+MLeap 使用  [Typesafe Config](https://github.com/typesafehub/config) 来配置这些注册表。默认情况下，MLeap 自带了 Spark Runtime 和 MLeap Runtime 的注册表配置。你可以通过如下链接来查阅对应的配置文件：  
 
 1. [MLeap 注册表](https://github.com/combust/mleap/blob/master/mleap-runtime/src/main/resources/reference.conf)
 2. [Spark 注册表](https://github.com/combust/mleap/blob/master/mleap-spark/src/main/resources/reference.conf)
 
 By default, the MLeap runtime uses the configuration at `ml.combust.mleap.registry.default`. Spark uses the configuration at `ml.combust.mleap.spark.registry.default`.
 
-默认情况下，MLeap 运行时使用 `ml.combust.mleap.registry.default` 中的配置，Spark 使用  `ml.combust.mleap.spark.registry.default` 中的配置。  
+默认情况下，MLeap Runtime 使用 `ml.combust.mleap.registry.default` 中的配置，Spark 使用  `ml.combust.mleap.spark.registry.default` 中的配置。  
 
 ### MLeap Registry | MLeap 注册表
 
