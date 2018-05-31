@@ -159,4 +159,4 @@ Here are some examples of serialized bundle files. They are not meant to be usef
 
 NOTE: right click and "Save As...", Gitbook prevents directly clicking on the link.
 
-注意：右键另存为，GitBook 不允许用户直接点击链接。
+注意：由于 GitBook 不允许用户直接点击链接下载，请右键另存为。
