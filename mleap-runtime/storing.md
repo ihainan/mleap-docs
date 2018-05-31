@@ -1,18 +1,22 @@
-# Storing a Leap Frame
+# Storing a Leap Frame | 存储 Leap Frame
 
-We are able to save and load a leap frame using several different
-serialization strategies. The provided formats are:
+We are able to save and load a leap frame using several different serialization strategies. The provided formats are:
+
+我们能够使用不同的序列化策略来存储和加载 Leap Frame。目前提供的格式包括：
 
 1. JSON
 2. Avro
 3. Binary
 
-It is also possible to create your own serialization formats if these do
-not suit your usage needs.
+It is also possible to create your own serialization formats if these do not suit your usage needs.
 
-## Sample Leap Frame
+如果以上格式不能满足你的使用需求，你可以定制自己的序列化格式。
+
+## SAMPLE LEAP FRAME | Leap Frame 示例
 
 All serialization examples will use this leap frame.
+
+后续所有的序列化示例都会使用如下 Leap Frame。
 
 ```scala
 val schema = StructType(StructField("features", TensorType(BasicType.Double)),
@@ -32,7 +36,7 @@ val dataset = Seq(Row(Tensor.denseVector(Array(20.0, 10.0, 5.0)),
 val frame = DefaultLeapFrame(schema, dataset)
 ```
 
-## JSON
+## JSON | JSON
 
 ```scala
 // Store Leap Frame
@@ -43,7 +47,7 @@ for(bytes <- frame.writer("ml.combust.mleap.json").toBytes();
 }
 ```
 
-## Avro
+## Avro | AVRO
 
 ```scala
 // Store Leap Frame
@@ -54,10 +58,11 @@ for(bytes <- frame.writer("ml.combust.mleap.avro").toBytes();
 }
 ```
 
-## Binary
+## Binary | 二进制数据
 
-Most efficient storage, uses data input/output streams to serialize the
-leap frame data.
+Most efficient storage, uses data input/output streams to serialize the leap frame data.
+
+最有效的存储格式，使用数据的输入 / 输出流来序列化 Leap Frame 数据。
 
 ```scala
 // Store Leap Frame
@@ -68,6 +73,8 @@ for(bytes <- frame.writer("ml.combust.mleap.binary").toBytes();
 }
 ```
 
-## Custom
+## CUSTOM | 自定义格式
 
 It is possible to create custom serializers for leap frames.
+
+MLeap 允许用户自己实现序列化器。
