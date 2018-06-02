@@ -9,4 +9,4 @@ MLeap Runtime 是一个轻量级的 Pipeline 执行引擎，它有如下特征�
 5. **Leap Frame 的序列化格式能够轻松通过网络传输**。
 6. [BLAS](https://github.com/scalanlp/breeze) 提供了一个非常快的线性代数系统。
 
-参见我们的 [MLeap Runtime 用法章节](../mleap-runtime/index.md) 来进一步了解如何在应用程序中使用 MLeap Runtime。
+参见我们的 [MLeap Runtime 用法章节](../mleap-runtime/index.md)来进一步了解如何在应用程序中使用 MLeap Runtime。
