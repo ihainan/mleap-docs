@@ -77,9 +77,9 @@
 ## 扩展
 | Transformer | Spark | MLeap | Scikit-Learn | TensorFlow | 描述 |
 |---|:---:|:---:|:---:|:---:|:---|
-| MathUnary | x | x | x | | Simple set of unary mathematical operations \| 一元数学计算集合 |
-| MathBinary | x | x | x | | Simple set of binary mathematical operations \| 二元数学计算集合 |
-| StringMap | x | x | x | | Maps a string to a double \| 映射字符串为 double 值。 |
+| MathUnary | x | x | x | | 一元数学计算集合 |
+| MathBinary | x | x | x | | 二元数学计算集合 |
+| StringMap | x | x | x | | 映射字符串为 double 值。 |
 
 ## 推荐算法
 | Transformer | Spark | MLeap | Scikit-Learn | TensorFlow |
