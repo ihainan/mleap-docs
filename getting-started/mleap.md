@@ -1,4 +1,4 @@
-# Getting Started with MLeap | Mleap 上手
+# Getting Started with MLeap | MLeap 入门
 
 The MLeap runtime itself provides everything needed to execute and serialize entire ML pipelines. It does not include anything required for training ML pipelines. In order to start with MLeap, you will need to add it to your project.
 

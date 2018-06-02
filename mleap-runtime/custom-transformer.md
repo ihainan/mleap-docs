@@ -51,7 +51,7 @@ The case class has a set of labels that it know how to map to a double. This is 
 
 ## MLEAP TRANSFORMER | MLeap Transformer
 
-The MLeap transformer is the piece of code that knows how to execute your core model against a leap frame. All MLeap transformers inherit from a base class: `ml.combust.mleap.runtime.transformer.Transformer`. For our example `StringMap` transformer, we can use a utility base class for simple input/output transformers called: `ml.combust.mleap.runtime.transformer.SimpleTransformer`. This base class takes care of a small amount of boilerplate for any transformer that has exactly one input and one output column. 
+The MLeap transformer is the piece of code that knows how to execute your core model against a leap frame. All MLeap transformers inherit from a base class: `ml.combust.mleap.runtime.transformer.Transformer`. For our example `StringMap` transformer, we can use a utility base class for simple input/output transformers called: `ml.combust.mleap.runtime.transformer.SimpleTransformer`. This base class takes care of a small amount of boilerplate for any transformer that has exactly one input and one output column.
 
 MLeap Transformer 包含将核心模型逻辑应用到 Leap Frame 的代码段。所有的 MLeap Transformer 继承自基类  `ml.combust.mleap.runtime.transformer.Transformer`。我们在  `StringMap` 例子中使用了一个工具基类 `ml.combust.mleap.runtime.transformer.SimpleTransformer` 来实现简单的输入输出数据转换。这个基类可以作为任何仅包含单条输入和单条输出的 Transformer 的样板类。  
 
@@ -198,7 +198,7 @@ We will need to register `StringMapOp` with the MLeap bundle registry at runtime
 
 我们还需要注册 `StringMapOp` 到 MLeap Bundle 注册表中，以让 MLeap 在运行时知道它的存在。我们会在本文稍后来讨论注册表。  
 
-## Spark Serialization
+## Spark Serialization | Spark 序列化
 
 We also need to define how to serialize/deserialize the custom Spark transformer to/from MLeap. This is very similar to the process we took for the MLeap transformer above. We will again be implementing both `ml.combust.bundle.op.OpNode` and `ml.combust.bundle.op.OpModel`.
 
@@ -274,7 +274,7 @@ We will need to register this with the MLeap registry as well, so that MLeap kno
 
 我们同样需要注册这个类到 MLeap 注册表中，从而让 MLeap 知道如何序列化 Spark Transformer。  
 
-## MLeap Bundle Registries
+## MLeap Bundle Registries | MLeap Bundle 注册
 
 A registry contains all of the custom transformers and types for a given execution engine. In this case, we support the MLeap and Spark execution engines for the `StringMap` transformer, so we will have to configure both the Spark and MLeap registry to know how to serialize/deserialize their respective transformers.
 
@@ -324,4 +324,3 @@ ml.combust.mleap.spark.registry.v20.ops += my.domain.mleap.spark.ops
 ml.combust.mleap.spark.registry.v21.ops += my.domain.mleap.spark.ops
 ml.combust.mleap.spark.registry.v22.ops += my.domain.mleap.spark.ops
 ```
-
