@@ -1,19 +1,13 @@
-# Scikit Transformers Examples | Scikit-Learn Transformer 示例
-
-Here we outline some more complicated transformers and transformers that require additional processing to work nicely with Pipelines and Feature Unions.
+# Scikit-Learn Transformer 示例
 
 接下来我们列出了一些更为复杂的 Transformer，以及一些需要额外处理来更好兼容 Pipeline 和特征联合的 Transformer。
 
 ### Label Encoder
 
-The `LabelEncoder` is synonymous with `StringIndexer` in Spark, however there are a couple of unique features of the scikit transformer that we need to account for:
-
 在 Spark 中，`LabelEncoder`  和 `StringIndexer` 是等价的，但是在 Scikit-Learn 中，我们需要去考虑一些独有的特性：
 
-1. `LabelEncoder` only opperates on a single feature at a time | `LabelEncoder` 一次只能作用于单个特征
-2. The output of the `LabelEncoder` is a numpy array of shape (1,n) instead of (n,1), which is required for further processing like One-Hot-Encoding | `LabelEncoder` 的输出是一个 (1, n)，而非 (n, 1) 的 numpy 数组，因此还需要进行例如 One-Hot-Encoding 之类的进一步处理。
-
-Here is what an example Pipeline looks like for a `LabelEncoder`
+1. `LabelEncoder` 一次只能作用于单个特征
+2. `LabelEncoder` 的输出是一个 (1, n)，而非 (n, 1) 的 numpy 数组，因此还需要进行例如 One-Hot-Encoding 之类的进一步处理。
 
 下面是一个 `LabelEncoder` 的示例 Pipeline。
 
@@ -49,13 +43,9 @@ array([[0],
        [1]])
 ```
 
-Next step is to combine the label indexer with a `OneHotEncoder`
-
 接下来我们来结合 `LabelIndexer` 和 `OneHotEncoder`。
 
-### Scikit OneHotEncoder | Scikit-Learn 中的 OneHotEncoder
-
-We'll continue the example above to demonstrate how the out-of-the-box Scikit OneHotEncoder works.
+### Scikit-Learn 中的 OneHotEncoder
 
 我们继续来看 Scikit-Learn 自带的 OneHotEncoder 是如何运作的：
 
@@ -82,17 +72,11 @@ matrix([[ 1.,  0.,  0.],
         [ 0.,  1.,  0.]])
 ```
 
-One of the short-comings of Scikit's OneHotEncoder is that it's missing a `drop_last` functionality that's required in ML pipelines. 
-
 Scikit-Learn 中的 OneHotEncoder 的一个缺点是其缺失了 ML Pipeline 所要求的 `drop_last` 功能。
-
-MLeap comes with it's own OneHotEncoder that enables that function
 
 MLeap 带来的 OneHotEncoder 则提供了这个功能。
 
-### MLeap OneHotEncoder | MLeap 的 OneHotEncoder
-
-Very similar to the Scikit OneHotEncoder, except we set an additional `drop_last` attribute.
+### MLeap 的 OneHotEncoder
 
 类似于 Scikit-Learn 的 OneHotEncoder，但是我们设置了一个额外的 `drop_last` 属性。
 

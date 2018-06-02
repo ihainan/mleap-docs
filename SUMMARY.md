@@ -21,7 +21,7 @@
 * [MLeap Spark 集成](spark/index.md)
 * [MLeap PySpark 集成](py-spark/index.md)
 * [MLeap Scikit-Learn 集成](scikit-learn/index.md)
-    * [Transformer 指南](scikit-learn/transformers.md)
+    * [Scikit-Learn Transformer 示例](scikit-learn/transformers.md)
 * [Tensorflow](tensorflow/index.md)
     * [MLeap TensorFlow 集成](tensorflow/mleap-integration.md)
     * [TensorFlow Bundle 序列化](tensorflow/bundle-serialization.md)
