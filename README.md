@@ -12,7 +12,7 @@ MLeap 既是适用于机器学习 Pipeline 存储的通用序列化格式，又�
 
 模型属于你自己。你可以把 MLeap Bundle 带到任何地方。诸如 Microsoft Azure 和 Google ML Cloud 在内的平台会把你限制在他们提供的服务包里面，而 MLeap 允许模型跟着你走。 
 
-### Spark、Scikit-Learn 和  TensorFlow 的统一 Runtime 
+### Spark、Scikit-Learn 和 TensorFlow 的统一 Runtime 
 
 混合多种机器学习技术对于 MLeap 来说易如反掌。无需再去要求整个开发团队都去研究 Pipeline 相关产品，只需简单导出为 MLeap Bundle，就可以在任何需要的地方执行你的 Pipeline。 
 
