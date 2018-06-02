@@ -1,12 +1,12 @@
 # Summary
 
 * [MLeap  中文文档](README.md)
-    * [入门](getting-started/index.md)
+    * [入门指南](getting-started/index.md)
     * [MLeap 入门](getting-started/mleap.md)
     * [Spark 集成入门](getting-started/spark.md)
     * [PySpark 集成入门](getting-started/py-spark.md)
     * [Scikit-Learn 集成入门](getting-started/scikit-learn.md)
-    * [TensorFlow 入门](getting-started/tensorflow.md)
+    * [TensorFlow 集成入门](getting-started/tensorflow.md)
     * [从源码编译 MLeap](getting-started/building.md)
 * [核心概念](core-concepts/index.md)
     * [Data Frames](core-concepts/data-frames/index.md)

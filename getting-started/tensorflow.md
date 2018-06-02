@@ -4,7 +4,7 @@ MLeap Tensorflow 集成允许用户将 TensorFlow Graph 当做 Transformer 集�
 
 ## 编译 MLeap-TensorFlow 模块
 
-MLeap TensorFlow 模块未被托管在 Maven Central 上，用户必须借助 TensorFlow 提供的 JNI（Java Native Interface）支持，编译源码获得。参考相关 [教程](building.md#build-tensorflow-mleap-module) 从源码编译 TensorFlow 模块。
+MLeap TensorFlow 模块未被托管在 Maven Central 上，用户必须借助 TensorFlow 提供的 JNI（Java Native Interface）支持，编译源码获得。参考相关[教程](building.md#build-tensorflow-mleap-module)从源码编译 TensorFlow 模块。
 
 ## 使用 MLeap-TensorFlow
 
@@ -89,6 +89,6 @@ transformer.close()
 
 更多关于 TensorFlow 集成如何运作的细节：
 
-1. 数据集成与转换的相关细节参见 [本章节](../tensorflow/mleap-integration.md)。
-2. 序列化 TensorFlow Graph 为 MLeap Bundle 的相关细节参见 [本章节](../tensorflow/bundle-serialization.md)。
+1. 数据集成与转换的相关细节参见[本章节](../tensorflow/mleap-integration.md)。
+2. 序列化 TensorFlow Graph 为 MLeap Bundle 的相关细节参见[本章节](../tensorflow/bundle-serialization.md)。
 

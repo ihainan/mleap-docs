@@ -39,8 +39,8 @@ MLeap PySpark 依赖包可以从 [combust/mleap](https://github.com/combust/mlea
 
 要使用 PySpark 对应的 MLeap Extension：
 
-   1. 参见 [编译指南](./building.html) 章节，从源码编译 MLeap。
-   2. 参见 [核心概念](../core-concepts/) 章节，从整体上了解 ML Pipeline。
+   1. 参见[编译指南](./building.html)章节，从源码编译 MLeap。
+   2. 参见[核心概念](../core-concepts/)章节，从整体上了解 ML Pipeline。
    3. 参见 [Spark 文档](http://spark.apache.org/docs/latest/ml-guide.html)，学习如何在 Spark 环境中训练 ML Pipeline。
    4. 参见 [Demo notebooks](https://github.com/combust/mleap-demo/tree/master/notebooks) 章节，了解如何集成 PySpark 和 MLeap 来实现序列化 Pipeline 为 Bundle.ML。
 
