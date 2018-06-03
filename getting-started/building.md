@@ -52,7 +52,7 @@ sbt test
 
 有非常多的教程介绍如何编译和安装 TensorFlow。
 
-1. [Tensorflow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_started/os_setup.md)
+1. [Tensorflow](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/g3doc/get_started/os_setup.md)（**译者注：文档已被原作者删除**）
 2. [Tensorflow Java Bindings](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/java).
 
 ### 编译 TensorFlow MLeap 模块

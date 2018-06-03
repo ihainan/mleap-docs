@@ -1,7 +1,5 @@
 # Scikit-Learn 集成入门
-MLeap Scikit-Learn 的集成允许用户将 Scikit-Learn 训练得到的 ML Pipeline 序列化为 MLeap Bundle，此外，MLeap 还提供了包括 [MLeap Extensions Transformers](../core concepts/transformers/support.md#extensions) 在内的额外扩展功能。
-
-
+MLeap Scikit-Learn 的集成允许用户将 Scikit-Learn 训练得到的 ML Pipeline 序列化为 MLeap Bundle，此外，MLeap 还提供了包括 [MLeap Extensions Transformers](../core-concepts/transformers/support.md#扩展) 在内的额外扩展功能。
 
 MLeap Scikit 的集成基于添加 Bundle 来实现。**ML 被序列化为 Transformer、Pipeline 以及特征单元**。必须要注意的是，因为核心执行引擎（Core Execution Engine）基于 Scala 语言来编写、参照原生 Spark Transformer 来做的实现，因此 MLeap 支持的 Transformer 为那些原先就存在于 Spark 或者扩展自 Spark 的 Transformer。完整的 Scikit-Learn Transformer 支持列表参见[支持的 Transformer](../core-concepts/transformers/support.md) 章节，或者你希望自己实现 Transformer 的话，可以参考[自定义 Transformer](../mleap-runtime/custom-transformer.md) 章节。
 
@@ -44,5 +42,5 @@ from mleap.sklearn.ensemble import forest
    3. 参见 [Scikit-learn 文档](http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html)，学习如何在 Python 环境中训练 ML Pipeline。
    4. 参见 Scikit-Learn 文档，了解如何在 Pipeline 中使用[特征联合](http://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html)。
    5. 参见 [Demo notebooks](https://github.com/combust/mleap-demo/tree/master/notebooks) 章节，了解如何集成 PySpark 和 MLeap 来实现序列化 Pipeline 为 Bundle.ML。
-   6. [学习](../basic/transofrm-leap-frame.md)如何使用 MLeap 转换 [DataFrame](../core-concepts/data-frames/index.md)。
+   6. [学习](../basic/transofrm-leap-frame.md)（**译者注：文档已被原作者删除**）如何使用 MLeap 转换 [DataFrame](../core-concepts/data-frames/index.md)。
 

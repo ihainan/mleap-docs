@@ -2,7 +2,7 @@
 
 MLeap 中的每一个内置 Transformer 都可以被视为自定义 Transformer。你所写的和我们所写的 Transformer / Bundle 集成代码（Bundle Integration Code）的唯一区别在于，我们的代码被内置到发布的 Jar 包中。我们欢迎用户通过提交 PR 来为 MLeap 项目添砖加瓦。
 
-我们的 [MLeap 源码](https://github.com/combust/mleap) 中有大量的例子用来示范如何编写自己的 Transformer，以及如何实现 Transformer 在 Spark 和 MLeap 之间的序列化转换。
+我们的 [MLeap 源码](https://github.com/combust/mleap)中有大量的例子用来示范如何编写自己的 Transformer，以及如何实现 Transformer 在 Spark 和 MLeap 之间的序列化转换。
 
 让我们通过一个简单的例子来完整过一遍自定义 Transformer 的过程，这个例子使用了一个包含我们所有待转换数据的  `Map[String, Double]` 对象，来将输入的字符串通映射成浮点值。
 

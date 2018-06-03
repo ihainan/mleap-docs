@@ -32,5 +32,5 @@ libraryDependencies += "ml.combust.mleap" %% "mleap-runtime" % "0.9.0"
 
 1. 参见[编译指南](./building.html)章节，从源码编译 MLeap。
 2. 参见[核心概念](../core-concepts/)章节，从整体上了解 ML Pipeline。
-3. 参见[基础用法](../basic/)章节，来实现 Leap Frame 的转换操作。
+3. 参见[基础用法](../basic/)章节（**译者注：文档已被原作者删除**），来实现 Leap Frame 的转换操作。
 

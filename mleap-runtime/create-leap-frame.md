@@ -29,4 +29,4 @@ assert(leapFrame.dataset(0).getDouble(1) == 56.7d)
 assert(leapFrame.dataset(1).getDouble(1) == 23.4d)
 ```
 
-对于预测来自例如 Web 服务器或者其他用户输入等数据源的数据来说，类似这种通过代码来创建 Leap Frames 的方法是非常有用的。此外，它还可以从文件中加载，或者把数据存储到文件中供后期使用。可以参见我们的[序列化 Leap Frame](Serializing+Leap+Frames.html)  章节以了解更多的细节。
+对于预测来自例如 Web 服务器或者其他用户输入等数据源的数据来说，类似这种通过代码来创建 Leap Frames 的方法是非常有用的。此外，它还可以从文件中加载，或者把数据存储到文件中供后期使用。可以参见我们的[序列化 Leap Frame](Serializing+Leap+Frames.html) （**译者注：文档已被原作者删除**）章节以了解更多的细节。

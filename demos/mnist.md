@@ -94,7 +94,7 @@ val datasetPcaFeaturesOnly = datasetWithFeatures.select(stringIndexer.getOutputC
 val datasetPcaFeaturesOnlyPersisted = datasetPcaFeaturesOnly.persist()
 ```
 
-我们本想让 Pipeline 包含随机森林模型，但目前有一个 Bug ([SPARK-16845](https://issues.apache.org/jira/browse/SPARK-16845)] 让我们暂时没法这么做（这个问题会在 2.2.0 中得到修复）。
+我们本想让 Pipeline 包含随机森林模型，但目前有一个 Bug ([SPARK-16845](https://issues.apache.org/jira/browse/SPARK-16845)) 让我们暂时没法这么做（这个问题会在 2.2.0 中得到修复）。
 
 #### 训练一个随机森林模型
 ```scala

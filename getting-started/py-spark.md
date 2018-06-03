@@ -1,5 +1,5 @@
 # PySpark 集成入门
-MLeap PySpark 的集成允许用户将 Spark 训练得到的 ML Pipeline 序列化为 [MLeap Bundle](../mleap-bundle/)，此外，MLeap 还进一步扩展了 Spark 的原生功能，增强了包括 One Hot Encoding、One vs Rest 在内的模型。但与 MLeap Spark 的集成不同，MLeap 目前尚未提供 PySpark 与 [Spark Extensions Transformer](../core-concepts/transformers/support.md#extensions) 的集成。
+MLeap PySpark 的集成允许用户将 Spark 训练得到的 ML Pipeline 序列化为 [MLeap Bundle](../mleap-bundle/)（**译者注：文档已被原作者删除**），此外，MLeap 还进一步扩展了 Spark 的原生功能，增强了包括 One Hot Encoding、One vs Rest 在内的模型。但与 MLeap Spark 的集成不同，MLeap 目前尚未提供 PySpark 与 [Spark Extensions Transformer](../core-concepts/transformers/support.md#extensions) 的集成。
 
 ## 添加 MLeap Spark 依赖到你的项目中
 
@@ -35,6 +35,8 @@ MLeap PySpark 依赖包可以从 [combust/mleap](https://github.com/combust/mlea
    * [Databricks](../notebooks/databricks.md)
 
    ## 使用 PIP
+
+
 此外，依赖包也可通过 PIP 从 https://pypi.python.org/pypi/mleap 获取。
 
 要使用 PySpark 对应的 MLeap Extension：

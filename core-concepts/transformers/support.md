@@ -2,7 +2,7 @@
 
 以下是 MLeap 支持的所有 Transformer。
 
-注意：TensorFlow 的相关支持情况并没有被列在这里，但你可以[在一个 MLeap Transformer Pipline 中插入任意 TensorFlow Graph](../../integration/tensorflow/usage.html)。
+注意：TensorFlow 的相关支持情况并没有被列在这里，但你可以[在一个 MLeap Transformer Pipline 中插入任意 TensorFlow Graph](../../integration/tensorflow/usage.html)（**译者注：文档已被原作者删除**）。
 
 ## 特征相关
 

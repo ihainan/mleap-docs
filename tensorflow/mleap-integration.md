@@ -4,11 +4,11 @@ MLeap 支持集成已经训练好的 TensorFlow Graph。MLeap 使用 TensorFlow 
 
 ## TensorFlow 的 Transformer
 
-MLeap TensorFlow 的 Tranformer 被编译在一个 TensorFlow Graph 文件当中，这个文件通过调用 `freeze_graph` 方法生成。当第一个请求要求转换 Leap Frame 的时候，这个 Transformer 会被惰性初始化。会话一旦已经开始，就会维持打开状态，直到 Transformer 的 `close` 方法被调用。
+MLeap TensorFlow 的 Transformer 被编译在一个 TensorFlow Graph 文件当中，这个文件通过调用 `freeze_graph` 方法生成。当第一个请求要求转换 Leap Frame 的时候，这个 Transformer 会被惰性初始化。会话一旦已经开始，就会维持打开状态，直到 Transformer 的 `close` 方法被调用。
 
-TensorFlow Transformer 处理 Leap Frame 之前，需要保证 Leap Fram 中的数据的格式正确。参见 [类型转换](#type-conversions) 小节了解如何将数据转换为 TensorFlow 类型。
+TensorFlow Transformer 处理 Leap Frame 之前，需要保证 Leap Frame 中的数据的格式正确。参见[类型转换](#类型转换)小节了解如何将数据转换为 TensorFlow 类型。
 
-Transformer 随后输出一列 Tensor 作为原始的 TensorFlow 输出字段，以及多个输出 Tensor 所指定的独立字段。由于现在 MLeap 的工作机制限制，中间的输出字段列必须得保留，但在未来我们会避免这个问题的出现。参考 [实例](#example) 小节了解 TensorFlow Transformer 如何作用于 Leap Frame。由于 TensorFlow 的输出类型需要提前获知，因此我们能够知道如何去构建转换之后新的 Leap Frame。
+Transformer 随后输出一列 Tensor 作为原始的 TensorFlow 输出字段，以及多个输出 Tensor 所指定的独立字段。由于现在 MLeap 的工作机制限制，中间的输出字段列必须得保留，但在未来我们会避免这个问题的出现。参考[实例](#实例)小节了解 TensorFlow Transformer 如何作用于 Leap Frame。由于 TensorFlow 的输出类型需要提前获知，因此我们能够知道如何去构建转换之后新的 Leap Frame。
 
 ### MLeap TensorFlow 模型
 
