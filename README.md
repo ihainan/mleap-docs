@@ -2,7 +2,7 @@
 
 #### 什么是 MLeap?
 
-MLeap 既是适用于机器学习 Pipeline 存储的通用序列化格式，又是 Pipeline 的通用执行引擎。MLeap 支持 Spark、Scikit-Learn、TensorFlow 等机器学习框架的 Pipeline 的训练，也能够将 Pipeline 导出成一个 MLeap Bundle。序列化得到的 Bundle 可以被反序列回原始的 Pipeline，也可被用于评分引擎（API 服务）中。 
+MLeap 既是适用于机器学习 Pipeline 存储的通用序列化格式，又是 Pipeline 的通用执行引擎。MLeap 支持 Spark、Scikit-Learn、TensorFlow 等机器学习框架的 Pipeline 的训练，也能够将 Pipeline 导出成一个 MLeap Bundle。序列化得到的 Bundle 可以被反序列回 Spark 中用于批处理评分，或者被用于 MLeap Runtime 中，从而提供强大的实时 API 服务。
 
 ## 为什么选择 MLeap？
 
