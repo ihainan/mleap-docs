@@ -13,15 +13,16 @@ MLeap TensorFlow 模块未被托管在 Maven Central 上，用户必须借助 Te
 首先，添加 MLeap-TensorFlow 作为项目依赖。
 
 ```sbt
-libraryDependencies += "ml.combust.mleap" %% "mleap-tensorflow" % "0.9.0"
+libraryDependencies += "ml.combust.mleap" %% "mleap-tensorflow" % "0.13.0"
 ```
 
 接下来就能在代码中使用 Tensor Graph。让我们构建一个包含两个 Tensor 的简单 Graph。
 
 ```scala
-import ml.combust.bundle.dsl.Shape
+import ml.combust.mleap.core.types._
 import ml.combust.mleap.runtime.frame.{DefaultLeapFrame, Row}
-import ml.combust.mleap.runtime.types.{FloatType, StructField, StructType}
+import ml.combust.mleap.tensor.Tensor
+import ml.combust.mleap.tensorflow.{TensorflowModel, TensorflowTransformer}
 import org.tensorflow
 
 // Initialize our Tensorflow demo graph
@@ -46,31 +47,28 @@ graph.opBuilder("Mul", "MyResult").
 // Build the MLeap model wrapper around the Tensorflow graph
 val model = TensorflowModel(graph,
   // Must specify inputs and input types for converting to TF tensors
-  inputs = Seq(("InputA", FloatType(false)), ("InputB", FloatType(false))),
+  inputs = Seq(("InputA", TensorType.Float()), ("InputB", TensorType.Float())),
   // Likewise, specify the output values so we can convert back to MLeap
   // Types properly
-  outputs = Seq(("MyResult", FloatType(false))))
+  outputs = Seq(("MyResult", TensorType.Float())))
 
 // Connect our Leap Frame values to the Tensorflow graph
 // Inputs and outputs
-val shape = Shape().
+val shape = NodeShape().
   // Column "input_a" gets sent to the TF graph as the input "InputA"
-  withInput("input_a", "InputA").
+  withInput("InputA", "input_a").
   // Column "input_b" gets sent to the TF graph as the input "InputB"
-  withInput("input_b", "InputB").
+  withInput("InputB", "input_b").
   // TF graph output "MyResult" gets placed in the leap frame as col
   // "my_result"
-  withOutput("my_result", "MyResult")
+  withOutput("MyResult", "my_result")
 
 // Create the MLeap transformer that executes the TF model against
 // A leap frame
-val transformer = TensorflowTransformer(inputs = shape.inputs,
-  outputs = shape.outputs ,
-  rawOutputCol = Some("raw_result"),
-  model = model)
+val transformer = TensorflowTransformer(shape = shape, model = model)
 
 // Create a sample leap frame to transform with the Tensorflow graph
-val schema = StructType(StructField("input_a", FloatType()), StructField("input_b", FloatType())).get
+val schema = StructType(StructField("input_a", ScalarType.Float), StructField("input_b", ScalarType.Float)).get
 val dataset = Seq(Row(5.6f, 7.9f),
   Row(3.4f, 6.7f),
   Row(1.2f, 9.7f))
@@ -78,9 +76,9 @@ val frame = DefaultLeapFrame(schema, dataset)
 
 // Transform the leap frame and make sure it behaves as expected
 val data = transformer.transform(frame).get.dataset
-assert(data(0)(3) == 5.6f * 7.9f)
-assert(data(1)(3) == 3.4f * 6.7f)
-assert(data(2)(3) == 1.2f * 9.7f)
+assert(data(0)(2).asInstanceOf[Tensor[Float]].get(0).get == 5.6f * 7.9f)
+assert(data(1)(2).asInstanceOf[Tensor[Float]].get(0).get == 3.4f * 6.7f)
+assert(data(2)(2).asInstanceOf[Tensor[Float]].get(0).get == 1.2f * 9.7f)
 
 // Cleanup the transformer
 // This closes the TF session and graph resources

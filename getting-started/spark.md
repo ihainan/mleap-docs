@@ -6,13 +6,13 @@ MLeap 依赖包及其快照已经被托管在 Maven Central 之上了，所以 M
 
 ### 使用 SBT
 ```sbt
-libraryDependencies += "ml.combust.mleap" %% "mleap-spark" % "0.9.0"
+libraryDependencies += "ml.combust.mleap" %% "mleap-spark" % "0.14.0"
 ```
 
 想在 Spark 中使用 MLeap Extension 的话：
 
 ```sbt
-libraryDependencies += "ml.combust.mleap" %% "mleap-spark-extension" % "0.9.0"
+libraryDependencies += "ml.combust.mleap" %% "mleap-spark-extension" % "0.14.0"
 ```
 
 ### 使用 Maven
@@ -21,7 +21,7 @@ libraryDependencies += "ml.combust.mleap" %% "mleap-spark-extension" % "0.9.0"
 <dependency>
   <groupId>ml.combust.mleap</groupId>
   <artifactId>mleap-spark_2.11</artifactId>
-  <version>0.9.0</version>
+  <version>0.14.0</version>
 </dependency>
 ```
 
@@ -31,7 +31,7 @@ libraryDependencies += "ml.combust.mleap" %% "mleap-spark-extension" % "0.9.0"
 <dependency>
   <groupId>ml.combust.mleap</groupId>
   <artifactId>mleap-spark-extension_2.11</artifactId>
-  <version>0.9.0</version>
+  <version>0.14.0</version>
 </dependency>
 ```
 

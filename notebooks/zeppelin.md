@@ -4,8 +4,8 @@ Zeppelin 默认已经能跑 Spark，我们不会在本节讲解如何配置一�
 
 MLap 已经被托管在 Maven Central 上，所以你需要做的只是添加：
 
-* `ml.combust.mleap:mleap-spark_2.11:0.9.0` 依赖以提供 Spark 序列化支持
-* `ml.combust.mleap:mleap-runtime_2.11:0.9.0` 和 `ml.combust.mleap:mleap-core_2.11:0.9.0` 依赖以提供 MLeap Runtime 支持
+* `ml.combust.mleap:mleap-spark_2.11:0.14.0` 依赖以提供 Spark 序列化支持
+* `ml.combust.mleap:mleap-runtime_2.11:0.14.0` 和 `ml.combust.mleap:mleap-core_2.11:0.14.0` 依赖以提供 MLeap Runtime 支持
 
 完成之后，只需要添加如下 MLeap import 语句：
 

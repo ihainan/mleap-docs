@@ -55,7 +55,7 @@ Bundle 的根目录下面会有一个 `bundle.json` 文件，它包含了 Bundle
   "name": "pipeline_43ec54dff5b2",
   "timestamp": "2017-09-03T17:41:25.206",
   "format": "json",
-  "version": "0.9.0"
+  "version": "0.14.0"
 }
 ```
 

@@ -40,12 +40,12 @@ Kernel 配置文件的路径一般为 /usr/local/share/jupyter/kernels/apache_to
 编辑该文件，添加或者修改  `__TOREE_SPARK_OPTS__` 变量：
 
 ```bash
-"__TOREE_SPARK_OPTS__": "--packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.9.0,"
+"__TOREE_SPARK_OPTS__": "--packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.14.0,"
 ```
 
 另一个方法是使用 AddDeps 来添加依赖，但是可能会引起依赖冲突，因此需要自行承担相应的后果。
 
-`%AddDeps ml.combust.mleap mleap-spark_2.11 0.9.0 --transitive`
+`%AddDeps ml.combust.mleap mleap-spark_2.11 0.14.0 --transitive`
 
 ### 启动 PySpark MLeap 集成 Notebook
 
